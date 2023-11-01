@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 const AdminProductComponent = () => {
     const [form] = Form.useForm();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
     const [rowSelected, setRowSelected] = useState('')
     const [isOpenDrawer, setIsOpenDrawer] = useState(false)
     const user = useSelector((state) => state?.user)
@@ -33,7 +34,7 @@ const AdminProductComponent = () => {
     })
     const [stateProduct, setStateProduct] = useState(inittial())
     const [stateProductDetails, setStateProductDetails] = useState(inittial())
-
+    console.log('stateProductDetails', stateProductDetails)
     const mutation = useMutationHooks(
         (data) => {
             const { name,
@@ -52,6 +53,23 @@ const AdminProductComponent = () => {
                 type,
                 countInStock
             })
+            return res
+        }
+    )
+
+    const mutationUpdate = useMutationHooks(
+        (data) => {
+            console.log('data check', data)
+            const { id,
+                token,
+                ...rests } = data
+            // const res = ProductService.updateProduct(
+            //     id,
+            //     token,
+            //     rests
+            // )
+            // return res
+            const res = ProductService.updateProduct(id, token, rests)
             return res
         }
     )
@@ -75,6 +93,7 @@ const AdminProductComponent = () => {
                 countInStock: res?.data?.countInStock,
             })
         }
+        setIsLoadingUpdate(false)
     }
     useEffect(() => {
         if (!isModalOpen) {
@@ -91,11 +110,17 @@ const AdminProductComponent = () => {
     }, [rowSelected, isOpenDrawer])
 
     const handleDetailsProduct = () => {
-        setIsOpenDrawer(true)
+        if (rowSelected) {
+            setIsLoadingUpdate(true)
+            // fetchGetDetailsProduct()
+            setIsOpenDrawer(true)
+        }
     }
 
     const { data, isLoading, isSuccess, isError } = mutation
+    const { data: dataUpdated, isLoading: isLoadingUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate
     const { isLoading: isLoadingProduct, data: products } = useQuery({ queryKey: ['products'], queryFn: getAllProducts })
+    console.log('dataupdated', dataUpdated)
 
     const renderAction = () => {
         return (
@@ -139,6 +164,16 @@ const AdminProductComponent = () => {
             message.error()
         }
     }, [isSuccess])
+
+    useEffect(() => {
+        if (isSuccessUpdated && dataUpdated?.status === 'OK') {
+            message.success()
+            handleCloseDrawer()
+        } else if (isErrorUpdated) {
+            message.error()
+            console.log('iserror', isErrorUpdated)
+        }
+    }, [isSuccessUpdated])
 
 
     const handleCloseDrawer = () => {
@@ -213,6 +248,10 @@ const AdminProductComponent = () => {
     const onFinish = () => {
         mutation.mutate(stateProduct)
     }
+
+    const onUpdateProduct = async () => {
+        mutationUpdate.mutate({ id: rowSelected, token: user?.access_token, stateProductDetails })
+    }
     return (
         <div>
             <WrapperHeader>Quản lý sản phẩm</WrapperHeader>
@@ -230,8 +269,9 @@ const AdminProductComponent = () => {
                         };
                     }} />
             </div>
+
             <Modal forceRender title="Tạo sản phẩm" open={isModalOpen} onCancel={handleCancel} footer={null}>
-                <LoadingComponent isLoading={isLoading}>
+                <LoadingComponent isLoading={isLoadingUpdate}>
                     <Form
                         name="basic"
                         labelCol={{ span: 6 }}
@@ -309,12 +349,15 @@ const AdminProductComponent = () => {
                     </Form>
                 </LoadingComponent>
             </Modal>
+
+            {/* chi tiết sản phẩm */}
             <DrawerComponent title='Chi tiết sản phẩm' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="90%">
                 <LoadingComponent isLoading={isLoadingProduct}>
                     <Form
                         name="basic"
                         labelCol={{ span: 2 }}
                         wrapperCol={{ span: 22 }}
+                        onFinish={onUpdateProduct}
                         autoComplete="on"
                         form={form}
                     >
@@ -329,14 +372,14 @@ const AdminProductComponent = () => {
                         <Form.Item
                             label="Type"
                             name="type"
-                            rules={[{ required: true, message: 'Please input your type!' }]}
+                            rules={[{ required: false, message: 'Please input your type!' }]}
                         >
                             <InputComponent value={stateProductDetails['type']} onChange={handleOnchangeDetails} name="type" />
                         </Form.Item>
                         <Form.Item
                             label="Count inStock"
                             name="countInStock"
-                            rules={[{ required: true, message: 'Please input your count inStock!' }]}
+                            rules={[{ required: false, message: 'Please input your count inStock!' }]}
                         >
                             <InputComponent value={stateProductDetails.countInStock} onChange={handleOnchangeDetails} name="countInStock" />
                         </Form.Item>
@@ -350,28 +393,28 @@ const AdminProductComponent = () => {
                         <Form.Item
                             label="Description"
                             name="description"
-                            rules={[{ required: true, message: 'Please input your count description!' }]}
+                            rules={[{ required: false, message: 'Please input your count description!' }]}
                         >
                             <InputComponent value={stateProductDetails.description} onChange={handleOnchangeDetails} name="description" />
                         </Form.Item>
                         <Form.Item
                             label="Rating"
                             name="rating"
-                            rules={[{ required: true, message: 'Please input your count rating!' }]}
+                            rules={[{ required: false, message: 'Please input your count rating!' }]}
                         >
                             <InputComponent value={stateProductDetails.rating} onChange={handleOnchangeDetails} name="rating" />
                         </Form.Item>
-                        <Form.Item
+                        {/* <Form.Item
                             label="Discount"
                             name="discount"
                             rules={[{ required: true, message: 'Please input your discount of product!' }]}
                         >
                             <InputComponent value={stateProductDetails.discount} onChange={handleOnchangeDetails} name="discount" />
-                        </Form.Item>
+                        </Form.Item> */}
                         <Form.Item
                             label="Image"
                             name="image"
-                            rules={[{ required: true, message: 'Please input your count image!' }]}
+                            rules={[{ required: false, message: 'Please input your count image!' }]}
                         >
                             <WrapperUploadFile onChange={handleOnchangeAvatarDetails} maxCount={1}>
                                 <Button >Select File</Button>
