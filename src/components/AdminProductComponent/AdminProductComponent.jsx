@@ -69,7 +69,7 @@ const AdminProductComponent = () => {
             //     rests
             // )
             // return res
-            const res = ProductService.updateProduct(id, token, rests)
+            const res = ProductService.updateProduct(id, token, { ...rests })
             return res
         }
     )
@@ -250,7 +250,7 @@ const AdminProductComponent = () => {
     }
 
     const onUpdateProduct = async () => {
-        mutationUpdate.mutate({ id: rowSelected, token: user?.access_token, stateProductDetails })
+        mutationUpdate.mutate({ id: rowSelected, token: user?.access_token, ...stateProductDetails })
     }
     return (
         <div>
