@@ -5,15 +5,15 @@ import { routes } from './routes';
 import DefaultComponent from './components/DefaultComponent/DefaultComponent';
 import { isJsonString } from './utils';
 import jwt_decode from "jwt-decode";
-import * as UserSerivce from './services/UserService'
+import * as UserService from './services/UserService'
 import { useDispatch, useSelector } from 'react-redux';
 import { resetUser, updateUser } from './redux/slides/userSlide';
 import LoadingComponent from './components/LoadingComponent/LoadingComponent';
 
 function App() {
-  const dispatch = useDispatch(); //gửi 1 action đến redux store 
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false)
   const user = useSelector((state) => state.user)
-  const [isloading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setIsLoading(true)
@@ -34,13 +34,17 @@ function App() {
     return { decoded, storageData }
   }
 
-  UserSerivce.axiosJWT.interceptors.request.use(async (config) => {
+  UserService.axiosJWT.interceptors.request.use(async (config) => {
+    // Do something before request is sent
     const currentTime = new Date()
     const { decoded } = handleDecoded()
+    let storageRefreshToken = localStorage.getItem('refresh_token')
+    const refreshToken = JSON.parse(storageRefreshToken)
     if (decoded?.exp < currentTime.getTime() / 1000) {
-      const data = await UserSerivce.refreshToken()
+      const data = await UserService.refreshToken(refreshToken)
       config.headers['token'] = `Bearer ${data?.access_token}`
-    } else {
+    }
+    else {
       dispatch(resetUser())
     }
     return config;
@@ -49,21 +53,22 @@ function App() {
   })
 
   const handleGetDetailsUser = async (id, token) => {
-    const res = await UserSerivce.getDetailUser(id, token)
-    dispatch(updateUser({ ...res?.data, access_token: token }))
-    setIsLoading(false)
+    let storageRefreshToken = localStorage.getItem('refresh_token')
+    const refreshToken = JSON.parse(storageRefreshToken)
+    const res = await UserService.getDetailUser(id, token)
+    dispatch(updateUser({ ...res?.data, access_token: token, refreshToken: refreshToken }))
   }
 
   return (
-    <LoadingComponent isLoading={isloading}>
-      <div>
+    <div style={{ height: '100vh', width: '100%' }}>
+      <LoadingComponent isLoading={isLoading}>
         <Router>
           <Routes>
             {routes.map((route) => {
               const Page = route.page
               const Layout = route.isShowHeader ? DefaultComponent : Fragment
               return (
-                <Route key={route.path} path={route.path} element={ //cần xem lại
+                <Route key={route.path} path={route.path} element={
                   <Layout>
                     <Page />
                   </Layout>
@@ -72,9 +77,10 @@ function App() {
             })}
           </Routes>
         </Router>
-      </div>
-    </LoadingComponent>
+      </LoadingComponent>
+    </div>
   )
 }
+
 
 export default App; 
