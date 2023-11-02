@@ -38,7 +38,6 @@ const AdminProductComponent = () => {
     })
     const [stateProduct, setStateProduct] = useState(inittial())
     const [stateProductDetails, setStateProductDetails] = useState(inittial())
-    console.log('stateProductDetails', stateProductDetails)
     const mutation = useMutationHooks(
         (data) => {
             const { name,
@@ -395,6 +394,7 @@ const AdminProductComponent = () => {
             }
         })
     }
+
     return (
         <div>
             <WrapperHeader>Quản lý sản phẩm</WrapperHeader>
@@ -581,6 +581,7 @@ const AdminProductComponent = () => {
                 </LoadingComponent>
             </DrawerComponent>
 
+            {/* xóa sản phẩm */}
             <ModalComponent forceRender title="Xóa sản phẩm" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteProduct}>
                 <LoadingComponent isLoading={isLoadingdeleted}>
                     <div>bạn có chắc xóa sản phẩm này không?</div>
