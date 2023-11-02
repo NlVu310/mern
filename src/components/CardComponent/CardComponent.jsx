@@ -12,7 +12,7 @@ const CardComponent = (props) => {
             headStyle={{ width: '250px', height: '250px' }}
             style={{ width: '201px' }}
             bodyStyle={{ padding: '10px' }}
-            cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+            cover={<img alt="example" src={image} />}
         >
             <img src={logo}
                 style={{ width: '68px', height: '14px', top: '-1.5px', left: '-1.5px', position: 'absolute' }} alt='logo' />
