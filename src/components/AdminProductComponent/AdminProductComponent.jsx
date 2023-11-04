@@ -80,6 +80,17 @@ const AdminProductComponent = () => {
         }
     )
 
+    const mutationDeletedMany = useMutationHooks(
+        (data) => {
+            const { ids,
+                token,
+            } = data
+            const res = ProductService.deleteManyProduct(ids, token)
+            return res
+        }
+    )
+
+    console.log('mutationDeletedMany', mutationDeletedMany)
 
     const getAllProducts = async () => {
         const res = await ProductService.getAllProduct()
@@ -118,6 +129,11 @@ const AdminProductComponent = () => {
 
     const handleDetailsProduct = () => {
         setIsOpenDrawer(true)
+    }
+
+    const handleDeleteManyProduct = (_id) => {
+        console.log('_id', { _id })
+        // mutationDeletedMany.mutate()
     }
 
     const { data, isLoading, isSuccess, isError } = mutation
@@ -402,7 +418,9 @@ const AdminProductComponent = () => {
                 <Button style={{ height: '150px', width: '150px', borderRadius: '6px', borderStyle: 'dashed' }} onClick={() => setIsModalOpen(true)}><PlusOutlined style={{ fontSize: '60px' }} /></Button>
             </div>
             <div style={{ marginTop: '20px' }}>
-                <TableComponent columns={columns}
+                <TableComponent
+                    handleDeleteManyProduct={handleDeleteManyProduct}
+                    columns={columns}
                     data={dataTable}
                     onRow={(record, rowIndex) => {
                         return {
