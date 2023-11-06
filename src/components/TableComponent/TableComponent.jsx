@@ -5,7 +5,7 @@ import { DownOutlined, SmileOutlined } from '@ant-design/icons'
 
 
 const TableComponent = (props) => {
-    const { selectionType = 'checkbox', data = [], columns = [], isLoading = false, handleDeleteManyProduct } = props
+    const { selectionType = 'checkbox', data = [], columns = [], isLoading = false, handleDeleteMany } = props
     const [rowSelectedkeys, setRowSelectedKeys] = useState([])
 
     const rowSelection = {
@@ -21,7 +21,7 @@ const TableComponent = (props) => {
     };
 
     const handleDeleteAll = () => {
-        handleDeleteManyProduct(rowSelectedkeys)
+        handleDeleteMany(rowSelectedkeys)
     }
 
     const items = [

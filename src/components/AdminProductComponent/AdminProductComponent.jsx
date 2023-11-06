@@ -131,9 +131,13 @@ const AdminProductComponent = () => {
         setIsOpenDrawer(true)
     }
 
-    const handleDeleteManyProduct = (_id) => {
-        console.log('_id', { _id })
-        // mutationDeletedMany.mutate()
+    const handleDeleteManyProduct = (ids) => {
+        console.log('_id', { ids })
+        mutationDeletedMany.mutate({ ids: ids, token: user?.access_token }, {
+            onSettled: () => {
+                queryProduct.refetch()
+            }
+        })
     }
 
     const { data, isLoading, isSuccess, isError } = mutation
@@ -419,7 +423,7 @@ const AdminProductComponent = () => {
             </div>
             <div style={{ marginTop: '20px' }}>
                 <TableComponent
-                    handleDeleteManyProduct={handleDeleteManyProduct}
+                    handleDeleteMany={handleDeleteManyProduct}
                     columns={columns}
                     data={dataTable}
                     onRow={(record, rowIndex) => {

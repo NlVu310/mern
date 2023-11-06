@@ -56,6 +56,15 @@ const AdminUserComponent = () => {
         }
     )
 
+    const mutationDeletedMany = useMutationHooks(
+        (data) => {
+            const { ids,
+                token,
+            } = data
+            const res = UserService.deleteManyUser(ids, token)
+            return res
+        }
+    )
 
     const getAllUsers = async () => {
         const res = await UserService.getAllUser()
@@ -92,6 +101,16 @@ const AdminUserComponent = () => {
     const handleDetailsUser = () => {
         setIsOpenDrawer(true)
     }
+
+    const handleDeleteManyUser = (ids) => {
+        console.log('_id', { ids })
+        mutationDeletedMany.mutate({ ids: ids, token: user?.access_token }, {
+            onSettled: () => {
+                queryUser.refetch()
+            }
+        })
+    }
+
 
     // const { data, isLoading, isSuccess, isError } = mutation
     const { data: dataUpdated, isLoading: isLoadingUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate
@@ -300,6 +319,7 @@ const AdminUserComponent = () => {
             <WrapperHeader> Quản lí người dùng</WrapperHeader>
             <div style={{ marginTop: '20px' }}>
                 <TableComponent columns={columns}
+                    handleDeleteMany={handleDeleteManyUser}
                     data={dataTable}
                     onRow={(record, rowIndex) => {
                         return {
