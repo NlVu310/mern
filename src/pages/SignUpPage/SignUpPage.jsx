@@ -22,17 +22,15 @@ const SignUpPage = () => {
     const mutation = useMutationHooks( //truyền vào trong data
         data => UserSerivce.signUpUser(data) //xử lí data đã lấy được
     )
-    const { data, isLoading, isSuccess, isError } = mutation //truyền vào mutation lúc đầu
+    const { data, isLoading, isSuccess } = mutation //truyền vào mutation lúc đầu
 
     //xử lí sau khi sử dụng
     useEffect(() => {
         if (isSuccess) {
             message.success()
             handleNavigateSignIn()
-        } else {
-            message.error()
         }
-    }, [isSuccess, isError])
+    }, [isSuccess])
 
     const [isShowPassword, setIsShowPassword] = useState(false) //mặc định false
     const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false)

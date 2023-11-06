@@ -31,6 +31,8 @@ const AdminUserComponent = () => {
         email: '',
         phone: '',
         isAdmin: false,
+        avatar: '',
+        address: '',
     })
     // const [stateUser, setStateUser] = useState(inittial())
     const [stateUserDetails, setStateUserDetails] = useState(inittial())
@@ -79,6 +81,8 @@ const AdminUserComponent = () => {
                 email: res?.data?.email,
                 phone: res?.data?.phone,
                 isAdmin: res?.data?.isAdmin,
+                address: res?.data?.address,
+                avatar: res?.data?.avatar
             })
         }
         setIsLoadingUpdate(false)
@@ -213,6 +217,11 @@ const AdminUserComponent = () => {
             ...getColumnSearchProps('email')
         },
         {
+            title: 'Address',
+            dataIndex: 'address',
+            ...getColumnSearchProps('address')
+        },
+        {
             title: 'Admin',
             dataIndex: 'isAdmin',
             filters: [
@@ -231,6 +240,7 @@ const AdminUserComponent = () => {
             dataIndex: 'phone',
             ...getColumnSearchProps('phone')
         },
+
         {
             title: 'Action',
             dataIndex: 'action',
@@ -298,7 +308,7 @@ const AdminUserComponent = () => {
         }
         setStateUserDetails({
             ...stateUserDetails,
-            image: file.preview
+            avatar: file.preview
         })
     }
 
@@ -355,6 +365,13 @@ const AdminUserComponent = () => {
                             <InputComponent value={stateUserDetails.email} onChange={handleOnchangeDetails} name="email" />
                         </Form.Item>
                         <Form.Item
+                            label="Address"
+                            name="address"
+                            rules={[{ required: false, message: 'Please input your count address!' }]}
+                        >
+                            <InputComponent value={stateUserDetails.address} onChange={handleOnchangeDetails} name="address" />
+                        </Form.Item>
+                        <Form.Item
                             label="Admin"
                             name="isAdmin"
                             rules={[{ required: false, message: 'Please input your Admin!' }]}
@@ -364,20 +381,19 @@ const AdminUserComponent = () => {
                         <Form.Item
                             label="Phone"
                             name="phone"
-                            rules={[{ required: false, message: 'Please input your count price!' }]}
+                            rules={[{ required: false, message: 'Please input your count phone!' }]}
                         >
                             <InputComponent value={stateUserDetails.phone} onChange={handleOnchangeDetails} name="phone" />
                         </Form.Item>
-
-                        {/* <Form.Item
-                            label="Image"
-                            name="image"
-                            rules={[{ required: false, message: 'Please input your count image!' }]}
+                        <Form.Item
+                            label="Avatar"
+                            name="avatar"
+                            rules={[{ required: false, message: 'Please input your count avatar!' }]}
                         >
                             <WrapperUploadFile onChange={handleOnchangeAvatarDetails} maxCount={1}>
                                 <Button >Select File</Button>
-                                {stateProductDetails?.image && (
-                                    <img src={stateProductDetails?.image} style={{
+                                {stateUserDetails?.avatar && (
+                                    <img src={stateUserDetails?.avatar} style={{
                                         height: '60px',
                                         width: '60px',
                                         borderRadius: '50%',
@@ -386,7 +402,7 @@ const AdminUserComponent = () => {
                                     }} alt="avatar" />
                                 )}
                             </WrapperUploadFile>
-                        </Form.Item> */}
+                        </Form.Item>
                         <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
                             <Button type="primary" htmlType="submit">
                                 Apply
