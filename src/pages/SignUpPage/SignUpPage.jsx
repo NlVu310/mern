@@ -27,7 +27,7 @@ const SignUpPage = () => {
 
     //xử lí sau khi sử dụng
     useEffect(() => {
-        if (isSuccess) {
+        if (data?.status === 'OK') {
             message.success()
             navigate('/sign-in')
         }
@@ -60,11 +60,14 @@ const SignUpPage = () => {
         })
     }
 
+    console.log('data', data)
+
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.53)', height: '100vh' }}>
             <div style={{ width: '800px', height: '445px', borderRadius: '6px', background: '#fff', display: 'flex' }}>
                 <WrapperContainerLeft>
                     <p> Tạo tài khoản </p>
+
                     <InputForm
                         style={{ marginBottom: '10px' }}
                         placeholder='email'
@@ -118,6 +121,7 @@ const SignUpPage = () => {
                         />
                     </div>
                     {data?.status === 'ERR' && (<span style={{ color: 'red' }}>{data?.message}</span>)}
+
                     <LoadingComponent isLoading={isLoading}>
                         <ButtonComponent
                             disabled={!email.length || !password.length || !confirmPassword.length}
