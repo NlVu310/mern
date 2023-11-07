@@ -2,12 +2,13 @@ import { Divider, Dropdown, Space, Table } from 'antd';
 import React, { useState } from 'react'
 import LoadingComponent from '../LoadingComponent/LoadingComponent';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons'
+import ModalComponent from '../ModalComponent/ModalComponent';
 
 
 const TableComponent = (props) => {
     const { selectionType = 'checkbox', data = [], columns = [], isLoading = false, handleDeleteMany } = props
     const [rowSelectedkeys, setRowSelectedKeys] = useState([])
-
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             setRowSelectedKeys(selectedRowKeys)
@@ -22,7 +23,17 @@ const TableComponent = (props) => {
 
     const handleDeleteAll = () => {
         handleDeleteMany(rowSelectedkeys)
+        setIsModalOpen(false)
     }
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true)
+    }
+
+    const handleCancel = () => {
+        setIsModalOpen(false)
+    }
+
 
     const items = [
         {
@@ -60,20 +71,6 @@ const TableComponent = (props) => {
     ];
     return (
         <LoadingComponent isLoading={isLoading}>
-            {/* <div>
-                <Dropdown
-                    menu={{
-                        items,
-                    }}
-                >
-                    <a onClick={(e) => e.preventDefault()}>
-                        <Space>
-                            Hover me
-                            <DownOutlined />
-                        </Space>
-                    </a>
-                </Dropdown>
-            </div> */}
             {rowSelectedkeys.length > 0 && (
                 <div style={{
                     background: '#1d1ddd',
@@ -81,9 +78,10 @@ const TableComponent = (props) => {
                     padding: '10px',
                     cursor: 'pointer'
                 }}
-                    onClick={handleDeleteAll}>
+                    onClick={handleOpenModal}>
                     Xóa tất cả
-                </div>)}
+                </div>)
+            }
             <div>
                 <Table
                     rowSelection={{
@@ -95,6 +93,10 @@ const TableComponent = (props) => {
                     {...props}
                 />
             </div>
+
+            <ModalComponent open={isModalOpen} onCancel={handleCancel} onOk={handleDeleteAll}>
+                <div>bạn có chắc xóa ?</div>
+            </ModalComponent>
         </LoadingComponent>
     )
 }
