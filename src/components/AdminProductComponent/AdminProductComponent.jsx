@@ -90,10 +90,8 @@ const AdminProductComponent = () => {
         }
     )
 
-    console.log('mutationDeletedMany', mutationDeletedMany)
-
-    const getAllProducts = async () => {
-        const res = await ProductService.getAllProduct()
+    const getAllProducts = async (search) => {
+        const res = await ProductService.getAllProduct(search)
         return res
     }
 

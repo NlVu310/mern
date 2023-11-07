@@ -20,17 +20,22 @@ const SignUpPage = () => {
     }
 
     const mutation = useMutationHooks( //truyền vào trong data
-        data => UserSerivce.signUpUser(data) //xử lí data đã lấy được
+        data => UserSerivce.signUpUser(data),
+        //xử lí data đã lấy được,
     )
-    const { data, isLoading, isSuccess } = mutation //truyền vào mutation lúc đầu
+    const { data, isLoading, isSuccess, isError } = mutation //truyền vào mutation lúc đầu
 
     //xử lí sau khi sử dụng
     useEffect(() => {
         if (isSuccess) {
             message.success()
-            handleNavigateSignIn()
+            navigate('/sign-in')
         }
-    }, [isSuccess])
+        else if (isError) {
+            message.error()
+            console.log('isError', isError)
+        }
+    }, [isSuccess, isError])
 
     const [isShowPassword, setIsShowPassword] = useState(false) //mặc định false
     const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false)
@@ -112,7 +117,7 @@ const SignUpPage = () => {
                             value={confirmPassword} onChange={handleOnchangeConfirmPassword}
                         />
                     </div>
-                    {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
+                    {data?.status === 'ERR' && (<span style={{ color: 'red' }}>{data?.message}</span>)}
                     <LoadingComponent isLoading={isLoading}>
                         <ButtonComponent
                             disabled={!email.length || !password.length || !confirmPassword.length}

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as UserSerivce from '../../services/UserService'
 import { resetUser } from '../../redux/slides/userSlide'
 import LoadingComponent from '../LoadingComponent/LoadingComponent';
+import { searchProduct } from '../../redux/slides/productSlice';
 
 
 const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
@@ -21,6 +22,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     const [loading, setLoading] = useState(false)
     const [userAvatar, setUserAvatar] = useState('')// eslint-disable-next-line 
     const [userName, setUserName] = useState('')
+    const [search, setSearch] = useState('')
     const handleLogOut = async () => {
         setLoading(true)
         await UserSerivce.logOutUser()
@@ -46,7 +48,10 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         </div>
     );
 
-
+    const onSearch = (e) => {
+        setSearch(e.target.value)
+        dispatch(searchProduct(e.target.value))
+    }
     return (
         <div style={{ width: '100%', background: 'rgb(26, 148, 255)' }}
         >
@@ -58,7 +63,8 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             size="large"
                             bordered={false}
                             textButton="Tìm kiếm"
-                            placeholder="inpt search text"
+                            placeholder="input search text"
+                            onChange={onSearch}
                         />
                     </Col>
                 )}

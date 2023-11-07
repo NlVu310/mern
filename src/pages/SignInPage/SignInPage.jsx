@@ -26,6 +26,7 @@ const SignInPage = () => {
     const { data, isLoading, isSuccess } = mutation //khai báo mutation có những gì
 
 
+
     useEffect(() => {
         if (isSuccess) {
             // message.success()
@@ -100,6 +101,7 @@ const SignInPage = () => {
                             value={password} onChange={handleOnchangePassword}
                         />
                     </div>
+
                     {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
                     <LoadingComponent isLoading={isLoading}>
                         <ButtonComponent
