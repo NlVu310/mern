@@ -1,4 +1,4 @@
-import { Divider, Dropdown, Space, Table } from 'antd';
+import { Pagination, Table } from 'antd';
 import React, { useState } from 'react'
 import LoadingComponent from '../LoadingComponent/LoadingComponent';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons'
@@ -9,6 +9,8 @@ const TableComponent = (props) => {
     const { selectionType = 'checkbox', data = [], columns = [], isLoading = false, handleDeleteMany } = props
     const [rowSelectedkeys, setRowSelectedKeys] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 8; // Số hàng hiển thị trên mỗi trang
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             setRowSelectedKeys(selectedRowKeys)
@@ -34,6 +36,9 @@ const TableComponent = (props) => {
         setIsModalOpen(false)
     }
 
+    const handleChangePage = (page) => {
+        setCurrentPage(page);
+    };
 
     const items = [
         {
@@ -92,7 +97,9 @@ const TableComponent = (props) => {
                     dataSource={data}
                     {...props}
                 />
+
             </div>
+
 
             <ModalComponent open={isModalOpen} onCancel={handleCancel} onOk={handleDeleteAll}>
                 <div>bạn có chắc xóa ?</div>

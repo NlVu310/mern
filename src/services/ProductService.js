@@ -3,7 +3,7 @@ import { axiosJWT } from "./UserService"
 
 export const getAllProduct = async (search) => {
     let res = {}
-    if (search.length > 0) {
+    if (search?.length > 0) {
         res = await axios.get(`${process.env.REACT_APP_API_URL}/product/get-all?filter=name&filter=${search}`)
     }
     else {

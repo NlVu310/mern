@@ -23,6 +23,7 @@ const HomePage = () => {
         const res = await ProductService.getAllProduct(search)
         if (search.length > 0 || refSearch.current) {
             setStateProduct(res?.data)
+            return []
         } else {
             return res
         }

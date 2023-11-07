@@ -90,8 +90,8 @@ const AdminProductComponent = () => {
         }
     )
 
-    const getAllProducts = async (search) => {
-        const res = await ProductService.getAllProduct(search)
+    const getAllProducts = async () => {
+        const res = await ProductService.getAllProduct()
         return res
     }
 
@@ -431,6 +431,7 @@ const AdminProductComponent = () => {
                             }
                         };
                     }} />
+
             </div>
 
             <ModalComponent forceRender title="Tạo sản phẩm" open={isModalOpen} onCancel={handleCancel} footer={null}>
