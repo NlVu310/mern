@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { WrapperHeader, WrapperUploadFile } from './style'
 import { PlusOutlined, DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Form, Space } from 'antd'
+import { Button, Form, Select, Space } from 'antd'
 import TableComponent from '../TableComponent/TableComponent'
 import InputComponent from '../InputComponent/InputComponent'
-import { getBase64 } from '../../utils'
+import { getBase64, renderOptions } from '../../utils'
 import * as ProductService from '../../services/ProductService'
 import { useMutationHooks } from '../../hooks/useMutationHook'
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
@@ -22,6 +22,7 @@ const AdminProductComponent = () => {
     const [rowSelected, setRowSelected] = useState('')
     const [isOpenDrawer, setIsOpenDrawer] = useState(false)
     const [isModalOpenDelete, setIsModalOpenDelete] = useState(false)
+    const [typeSelect, setTypeSelect] = useState('')
     const searchInput = useRef(null);
 
     const user = useSelector((state) => state?.user)
@@ -110,6 +111,12 @@ const AdminProductComponent = () => {
         }
         setIsLoadingUpdate(false)
     }
+
+    const fetchAllTypeProduct = async () => {
+        const res = await ProductService.getAllTypeProduct()
+        return res
+    }
+
     useEffect(() => {
         if (!isModalOpen) {
             form.setFieldsValue(stateProductDetails)
@@ -143,8 +150,12 @@ const AdminProductComponent = () => {
     const { data: dataDeleted, isLoading: isLoadingdeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDeleted
 
     const queryProduct = useQuery({ queryKey: ['products'], queryFn: getAllProducts })
-    const { isLoading: isLoadingProduct, data: products } = queryProduct
+    const typeProduct = useQuery({ queryKey: ['type-product'], queryFn: fetchAllTypeProduct })
 
+    const { isLoading: isLoadingProduct, data: products } = queryProduct
+    // const { data: typeProducts } = typeProduct
+
+    // console.log('type', typeProduct)
     const renderAction = () => {
         return (
             <div>
@@ -413,6 +424,14 @@ const AdminProductComponent = () => {
         })
     }
 
+    const handleChangeSelect = (value) => {
+        setTypeSelect(value)
+        setStateProduct({
+            ...stateProduct,
+            type: value
+        })
+    }
+
     return (
         <div>
             <WrapperHeader>Quản lý sản phẩm</WrapperHeader>
@@ -457,7 +476,13 @@ const AdminProductComponent = () => {
                             name="type"
                             rules={[{ required: false, message: 'Please input your type!' }]}
                         >
-                            <InputComponent value={stateProduct.type} onChange={handleOnchange} name="type" />
+                            {/* <InputComponent value={stateProduct.type} onChange={handleOnchange} name="type" /> */}
+                            <Select
+                                name='type'
+                                onChange={handleChangeSelect}
+                                options={renderOptions(typeProduct?.data?.data)}
+                            />
+
                         </Form.Item>
                         <Form.Item
                             label="Count inStock"
