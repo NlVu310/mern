@@ -2,10 +2,17 @@ import React from 'react'
 import { StyleCard, StyleNameProduct, WrapperDiscountPriceText, WrapperPriceText, WrapperReportText, WrapperTextSell } from './style'
 import { StarFilled } from '@ant-design/icons'
 import logo from '../../assets/images/logo.png'
+import { Navigate, useNavigate } from 'react-router-dom'
+
 
 
 const CardComponent = (props) => {
-    const { countInStock, description, image, name, price, rating, type, selled, discount } = props
+    const navigate = useNavigate()
+    const { countInStock, description, image, name, price, rating, type, selled, discount, id } = props
+    const handleDetailsProduct = (id) => {
+        navigate(`/product-details/${id}`)
+    }
+
     return (
         <StyleCard
             hoverable
@@ -13,6 +20,7 @@ const CardComponent = (props) => {
             style={{ width: '201px' }}
             bodyStyle={{ padding: '10px' }}
             cover={<img alt="example" src={image} />}
+            onClick={() => handleDetailsProduct(id)}
         >
             <img src={logo}
                 style={{ width: '68px', height: '14px', top: '-1.5px', left: '-1.5px', position: 'absolute' }} alt='logo' />

@@ -26,7 +26,6 @@ const HomePage = () => {
     }
 
     const { data: products, isPreviousData } = useQuery(['products', limit, searchDebounce], fetchProductAll, { retry: 3, retryDelay: 1000, keepPreviousData: true })
-    console.log('check', isPreviousData)
     return (
         < >
             <div style={{ padding: '0 120px' }}>
@@ -55,6 +54,7 @@ const HomePage = () => {
                                     type={product.type}
                                     selled={product.selled}
                                     discount={product.discount}
+                                    id={product._id}
                                 />
                             )
                         })}
