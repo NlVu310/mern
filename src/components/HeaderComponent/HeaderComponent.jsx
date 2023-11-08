@@ -56,7 +56,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         <div style={{ width: '100%', background: 'rgb(26, 148, 255)' }}
         >
             <WrapperHeader style={{ justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' : 'unset' }}>
-                <Col span={5}> <WrapperTextHeader> NLV</WrapperTextHeader> </Col>
+                <Col span={5}> <WrapperTextHeader onClick={() => navigate('/')}> NLV</WrapperTextHeader> </Col>
                 {!isHiddenSearch && (
                     <Col span={13}>
                         <ButtonInputSearchComponent

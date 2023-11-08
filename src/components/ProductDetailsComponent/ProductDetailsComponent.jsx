@@ -14,7 +14,7 @@ const ProductDetailsComponent = () => {
         <Row style={{ padding: '16px', background: '#fff', borderRadius: '4px' }}>
             <Col span={10} style={{ borderRight: '1px solid #e5e5e5', paddingRight: '6px' }}>
                 <Image width={'100%'} src={xiaomi1} alt="image product" preview={false} />
-                <Row style={{ paddingTop: '10px', justifyContent: 'space-between' }}>
+                {/* <Row style={{ paddingTop: '10px', justifyContent: 'space-between' }}>
                     <WrapperStyleColImage span={4}>
                         <WrapperStyleImageSmall src={xiaomismall} alt="small" preview={false} />
                     </WrapperStyleColImage>
@@ -33,7 +33,7 @@ const ProductDetailsComponent = () => {
                     <WrapperStyleColImage span={4}>
                         <WrapperStyleImageSmall src={xiaomismall} alt="small" preview={false} />
                     </WrapperStyleColImage>
-                </Row>
+                </Row> */}
             </Col>
 
             <Col span={14} style={{ paddingLeft: '10px' }}>

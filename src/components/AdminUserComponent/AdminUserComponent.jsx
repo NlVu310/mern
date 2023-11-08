@@ -39,7 +39,6 @@ const AdminUserComponent = () => {
 
     const mutationUpdate = useMutationHooks(
         (data) => {
-            console.log('data', data)
             const { id,
                 token,
                 ...rests } = data
@@ -107,7 +106,6 @@ const AdminUserComponent = () => {
     }
 
     const handleDeleteManyUser = (ids) => {
-        console.log('_id', { ids })
         mutationDeletedMany.mutate({ ids: ids, token: user?.access_token }, {
             onSettled: () => {
                 queryUser.refetch()
