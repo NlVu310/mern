@@ -1,6 +1,5 @@
 import { Col, Image, Rate, Row } from 'antd'
 import React, { useState } from 'react'
-import xiaomi1 from '../../assets/images/xiaomi1.jpg'
 import { StarFilled, PlusOutlined, MinusOutlined } from '@ant-design/icons'
 import { WrapperAddressProduct, WrapperInputNumber, WrapperPriceProduct, WrapperPriceTextProduct, WrapperQualityProduct, WrapperStyleColImage, WrapperStyleImageSmall, WrapperStyleNameProduct, WrapperTextSell } from './style'
 import ButtonComponent from '../ButtonComponent/ButtonComponent'
@@ -10,7 +9,7 @@ import LoadingComponent from '../../components/LoadingComponent/LoadingComponent
 import { useSelector } from 'react-redux'
 
 const ProductDetailsComponent = ({ idProduct }) => {
-    const [numProduct, setNumproduct] = useState('1')
+    const [numProduct, setNumproduct] = useState(1)
     const user = useSelector((state) => state.user)
     console.log('user', user)
     const onChange = (value) => {

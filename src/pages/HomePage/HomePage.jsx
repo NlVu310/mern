@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TypeProductComponent from '../../components/TypeProductComponent/TypeProductComponent'
 import { WrapperButtonMore, WrapperTypeProduct, WrapperProducts } from './style'
 import SliderComponent from '../../components/SliderComponent/SliderComponent'
@@ -10,13 +10,14 @@ import { useQuery } from '@tanstack/react-query'
 import * as ProductService from '../../services/ProductService'
 import { useSelector } from 'react-redux'
 import { useDebounce } from '../../hooks/useDebounce'
+import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
 
 const HomePage = () => {
     const searchProduct = useSelector((state) => state?.product?.search)
     const [limit, setLimit] = useState(6)
     const searchDebounce = useDebounce(searchProduct, 1000)//dùng để delay coi như load 
-    const arr = ['TV', 'Tủ Lạnh', 'Laptop']
-
+    const [loading, setloading] = useState(false)
+    const [typeProducts, setTypeProducts] = useState([])
 
     const fetchProductAll = async (context) => { //đây là 1 function
         const limit = context?.queryKey && context?.queryKey[1]
@@ -25,12 +26,22 @@ const HomePage = () => {
         return res
     }
 
-    const { data: products, isPreviousData } = useQuery(['products', limit, searchDebounce], fetchProductAll, { retry: 3, retryDelay: 1000, keepPreviousData: true })
+    const fetchALlTypeProduct = async () => {
+        const res = await ProductService.getAllTypeProduct()
+        if (res?.status === 'OK') {
+            setTypeProducts(res?.data)
+        }
+    }
+
+    useEffect(() => {
+        fetchALlTypeProduct()
+    }, [])
+    const { isloading, data: products, isPreviousData } = useQuery(['products', limit, searchDebounce], fetchProductAll, { retry: 3, retryDelay: 1000, keepPreviousData: true })
     return (
-        < >
+        < LoadingComponent isLoading={isloading || loading}>
             <div style={{ padding: '0 120px' }}>
                 <WrapperTypeProduct >
-                    {arr.map((item) => {
+                    {typeProducts.map((item) => {
                         return (
                             <TypeProductComponent name={item} key={item} />
                         )
@@ -70,7 +81,7 @@ const HomePage = () => {
                 </div>
             </div>
 
-        </  >
+        </ LoadingComponent>
 
     )
 }
