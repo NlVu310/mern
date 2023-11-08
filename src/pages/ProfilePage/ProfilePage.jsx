@@ -98,7 +98,7 @@ const ProfilePage = () => {
                         <ButtonComponent
                             onClick={handleUpdate}
                             size={40}
-                            textButton={'Cập nhật'}
+                            textbutton={'Cập nhật'}
                             styleTextButton={{ color: 'rgb(26, 148, 255)' }}
                             styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
                         </ButtonComponent>
@@ -113,7 +113,7 @@ const ProfilePage = () => {
                         <ButtonComponent
                             onClick={handleUpdate}
                             size={40}
-                            textButton={'Cập nhật'}
+                            textbutton={'Cập nhật'}
                             styleTextButton={{ color: 'rgb(26, 148, 255)' }}
                             styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
                         </ButtonComponent>
@@ -128,7 +128,7 @@ const ProfilePage = () => {
                         <ButtonComponent
                             onClick={handleUpdate}
                             size={40}
-                            textButton={'Cập nhật'}
+                            textbutton={'Cập nhật'}
                             styleTextButton={{ color: 'rgb(26, 148, 255)' }}
                             styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
                         </ButtonComponent>
@@ -143,7 +143,7 @@ const ProfilePage = () => {
                         <ButtonComponent
                             onClick={handleUpdate}
                             size={40}
-                            textButton={'Cập nhật'}
+                            textbutton={'Cập nhật'}
                             styleTextButton={{ color: 'rgb(26, 148, 255)' }}
                             styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
                         </ButtonComponent>
@@ -164,7 +164,7 @@ const ProfilePage = () => {
                         <ButtonComponent
                             onClick={handleUpdate}
                             size={40}
-                            textButton={'Cập nhật'}
+                            textbutton={'Cập nhật'}
                             styleTextButton={{ color: 'rgb(26, 148, 255)' }}
                             styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
                         </ButtonComponent>
@@ -173,7 +173,7 @@ const ProfilePage = () => {
                         <ButtonComponent
                             onClick={handleUpdate}
                             size={40}
-                            textButton={'Cập nhật'}
+                            textbutton={'Cập nhật'}
                             styleTextButton={{ color: 'rgb(26, 148, 255)' }}
                             styleButton={{ color: 'rgb(26, 148, 255)', padding: '2px 6px 6px', fontSize: '15px' }}>
                         </ButtonComponent>

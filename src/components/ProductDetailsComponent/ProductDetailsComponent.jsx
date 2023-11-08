@@ -70,15 +70,14 @@ const ProductDetailsComponent = ({ idProduct }) => {
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <ButtonComponent
-                            bordered={false}
                             size={40}
-                            textButton={'Chọn mua'}
+                            textbutton={'Chọn mua'}
                             styleTextButton={{ color: '#fff' }}
                             styleButton={{ background: 'rgb(255,57,69)', height: '48px', width: '220px' }}>
                         </ButtonComponent>
                         <ButtonComponent
                             size={40}
-                            textButton={'Mua trả sau'}
+                            textbutton={'Mua trả sau'}
                             styleTextButton={{ color: 'blue' }}
                             styleButton={{ background: '#fff', height: '48px', width: '220px', border: '1px solid rgb(13, 92, 182)' }}>
                         </ButtonComponent>

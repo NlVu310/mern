@@ -71,7 +71,7 @@ const HomePage = () => {
                         })}
                     </WrapperProducts>
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                        <WrapperButtonMore textButton='Xem thêm' type='outline' styleButton={{
+                        <WrapperButtonMore textbutton='Xem thêm' type='outline' styleButton={{
                             border: '1px solid rgb(11,116 ,229)', color: 'rgb(11,116,229)', width: '240px', height: '38px', borderRadius: '4px'
                         }}
                             styleTextButton={{ fontWeight: 500 }}

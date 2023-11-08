@@ -108,7 +108,7 @@ const SignInPage = () => {
                             onClick={handleSignIn}
                             disabled={!email.length || !password.length}
                             size={40}
-                            textButton={'Đăng nhập'}
+                            textbutton={'Đăng nhập'}
                             styleTextButton={{ color: '#fff' }}
                             styleButton={{ background: 'rgb(255,57,69)', height: '48px', width: '100%', margin: '26px 0 10px' }}>
                         </ButtonComponent>
