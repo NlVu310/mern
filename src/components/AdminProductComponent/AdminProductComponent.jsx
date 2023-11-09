@@ -499,7 +499,7 @@ const AdminProductComponent = () => {
                             <Form.Item
                                 label='New type'
                                 name="newType"
-                                rules={[{ required: true, message: 'Please input your type!' }]}
+                                rules={[{ required: false, message: 'Please input your type!' }]}
                             >
                                 <InputComponent value={stateProduct.newType} onChange={handleOnchange} name="newType" />
                             </Form.Item>
