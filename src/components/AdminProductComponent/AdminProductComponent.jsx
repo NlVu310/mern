@@ -22,7 +22,6 @@ const AdminProductComponent = () => {
     const [rowSelected, setRowSelected] = useState('')
     const [isOpenDrawer, setIsOpenDrawer] = useState(false)
     const [isModalOpenDelete, setIsModalOpenDelete] = useState(false)
-    const [typeSelect, setTypeSelect] = useState('')
     const searchInput = useRef(null);
 
     const user = useSelector((state) => state?.user)
@@ -488,8 +487,6 @@ const AdminProductComponent = () => {
                         >
                             <Select
                                 name="type"
-                                // defaultValue="lucy"
-                                // style={{ width: 120 }}
                                 value={stateProduct.type}
                                 onChange={handleChangeSelect}
                                 options={renderOptions(typeProduct?.data?.data)}

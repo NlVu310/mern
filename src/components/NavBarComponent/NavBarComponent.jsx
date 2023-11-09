@@ -43,7 +43,7 @@ const NavBarComponent = () => {
     }
 
     return (
-        <div>
+        <div style={{ background: 'white', marginRight: '10px', padding: '5px' }}>
             <WrapperLableText>Label</WrapperLableText>
             <WrapperContent>
                 {renderContent('text', ['Tủ lạnh', 'Tv', 'Laptop'])}
