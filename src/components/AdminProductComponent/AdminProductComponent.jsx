@@ -409,7 +409,16 @@ const AdminProductComponent = () => {
     })
 
     const onFinish = () => {
-        mutation.mutate(stateProduct, {
+        const params = {
+            name: stateProduct.name,
+            price: stateProduct.price,
+            description: stateProduct.description,
+            rating: stateProduct.rating,
+            image: stateProduct.image,
+            type: stateProduct.type === 'add_type' ? stateProduct.newType : stateProduct.type,
+            countInStock: stateProduct.countInStock,
+        }
+        mutation.mutate(params, {
             onSettled: () => {
                 queryProduct.refetch()
             }
@@ -425,11 +434,11 @@ const AdminProductComponent = () => {
     }
 
     const handleChangeSelect = (value) => {
-        setTypeSelect(value)
         setStateProduct({
             ...stateProduct,
             type: value
         })
+
     }
 
     return (
@@ -454,6 +463,7 @@ const AdminProductComponent = () => {
             </div>
 
             <ModalComponent forceRender title="Tạo sản phẩm" open={isModalOpen} onCancel={handleCancel} footer={null}>
+                {/* {data?.status === 'ERR' && (<span style={{ color: 'red' }}>{data?.message}</span>)} */}
                 <LoadingComponent isLoading={isLoading}>
                     <Form
                         name="basic"
@@ -474,16 +484,26 @@ const AdminProductComponent = () => {
                         <Form.Item
                             label="Type"
                             name="type"
-                            rules={[{ required: false, message: 'Please input your type!' }]}
+                            rules={[{ required: true, message: 'Please input your type!' }]}
                         >
-                            {/* <InputComponent value={stateProduct.type} onChange={handleOnchange} name="type" /> */}
                             <Select
-                                name='type'
+                                name="type"
+                                // defaultValue="lucy"
+                                // style={{ width: 120 }}
+                                value={stateProduct.type}
                                 onChange={handleChangeSelect}
                                 options={renderOptions(typeProduct?.data?.data)}
                             />
-
                         </Form.Item>
+                        {stateProduct.type === 'add_type' && (
+                            <Form.Item
+                                label='New type'
+                                name="newType"
+                                rules={[{ required: true, message: 'Please input your type!' }]}
+                            >
+                                <InputComponent value={stateProduct.newType} onChange={handleOnchange} name="newType" />
+                            </Form.Item>
+                        )}
                         <Form.Item
                             label="Count inStock"
                             name="countInStock"
