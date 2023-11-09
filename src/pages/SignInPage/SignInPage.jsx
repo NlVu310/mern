@@ -4,7 +4,7 @@ import { Image } from 'antd'
 import logologin from '../../assets/images/logologin.png'
 import InputForm from '../InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
 import * as UserSerivce from '../../services/UserService'
 import { useMutationHooks } from '../../hooks/useMutationHook'
@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux'
 import { updateUser } from '../../redux/slides/userSlide'
 
 const SignInPage = () => {
+    const location = useLocation()
     const navigate = useNavigate()
     const handleNavigateSignUp = () => {
         navigate('/sign-up') //chuyen huong 
@@ -29,14 +30,17 @@ const SignInPage = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            // message.success()
+            if (location?.state) {
+                navigate(location?.state)
+            } else {
+                navigate('/')
+            }
             localStorage.setItem('access_token', JSON.stringify(data?.access_token))//truyền vào data tạm thời 
             if (data?.access_token) {
                 const decoded = jwt_decode(data?.access_token)
                 if (decoded?.id) {
                     handleGetDetailsUser(decoded?.id, data?.access_token)
                 }
-                navigate('/')
             }
         }
     }, [isSuccess]) //goi den khi render

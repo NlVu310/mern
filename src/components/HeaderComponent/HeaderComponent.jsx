@@ -51,6 +51,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     const onSearch = (e) => {
         setSearch(e.target.value)
         dispatch(searchProduct(e.target.value))
+        //lí do filter được
     }
     return (
         <div style={{ width: '100%', background: 'rgb(26, 148, 255)' }}

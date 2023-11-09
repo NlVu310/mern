@@ -1,17 +1,21 @@
 import { Col, Image, Rate, Row } from 'antd'
 import React, { useState } from 'react'
-import { StarFilled, PlusOutlined, MinusOutlined } from '@ant-design/icons'
-import { WrapperAddressProduct, WrapperInputNumber, WrapperPriceProduct, WrapperPriceTextProduct, WrapperQualityProduct, WrapperStyleColImage, WrapperStyleImageSmall, WrapperStyleNameProduct, WrapperTextSell } from './style'
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons'
+import { WrapperAddressProduct, WrapperInputNumber, WrapperPriceProduct, WrapperPriceTextProduct, WrapperQualityProduct, WrapperStyleNameProduct, WrapperTextSell } from './style'
 import ButtonComponent from '../ButtonComponent/ButtonComponent'
 import * as ProductService from '../../services/ProductService'
 import { useQuery } from '@tanstack/react-query'
 import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { addOrderProduct } from '../../redux/slides/orderSlide'
 
 const ProductDetailsComponent = ({ idProduct }) => {
     const [numProduct, setNumproduct] = useState(1)
     const user = useSelector((state) => state.user)
-    console.log('user', user)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const dispatch = useDispatch()
     const onChange = (value) => {
         setNumproduct(Number(value))
     }
@@ -31,8 +35,29 @@ const ProductDetailsComponent = ({ idProduct }) => {
         }
     }
 
+    const handleAddOrderProduct = () => {
+        if (!user?.id) {
+            navigate('/sign-in', { state: location?.pathname })
+        } else {
+            dispatch(addOrderProduct({
+                orderItems: {
+                    name: productDetails?.name,
+                    amount: numProduct,
+                    image: productDetails?.image,
+                    price: productDetails?.price,
+                    product: productDetails?._id,
+                }
+            }))
+
+        }
+    }
+
+
+
     const { isLoading, data: productDetails } = useQuery(['products', idProduct], fetchGetDetailsProduct, { enabled: !!idProduct })
-    console.log('product', productDetails)
+    console.log('check value', productDetails, user)
+
+
     return (
         <LoadingComponent isLoading={isLoading}>
             <Row style={{ padding: '16px', background: '#fff', borderRadius: '4px' }}>
@@ -70,6 +95,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <ButtonComponent
+                            onClick={handleAddOrderProduct}
                             size={40}
                             textbutton={'Chọn mua'}
                             styleTextButton={{ color: '#fff' }}
