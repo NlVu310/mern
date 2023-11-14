@@ -40,22 +40,22 @@ const ProductDetailsComponent = ({ idProduct }) => {
             navigate('/sign-in', { state: location?.pathname })
         } else {
             dispatch(addOrderProduct({
-                orderItems: {
+                orderItem: {
                     name: productDetails?.name,
                     amount: numProduct,
                     image: productDetails?.image,
                     price: productDetails?.price,
-                    product: productDetails?._id,
+                    product: productDetails?._id
                 }
             }))
-
         }
     }
 
 
-
     const { isLoading, data: productDetails } = useQuery(['products', idProduct], fetchGetDetailsProduct, { enabled: !!idProduct })
     console.log('check value', productDetails, user)
+
+    console.log(productDetails?._id)
 
 
     return (

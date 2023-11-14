@@ -17,7 +17,8 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         navigate('/sign-in')
     }
     const user = useSelector((state) => state.user)
-    // console.log("user", user)
+    const order = useSelector((state) => state.order)
+    console.log('ord', order)
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [userAvatar, setUserAvatar] = useState('')// eslint-disable-next-line 
@@ -101,7 +102,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                     </LoadingComponent>
                     {!isHiddenCart && (
                         <div onClick={() => navigate('/order')} style={{ cursor: 'pointer' }}>
-                            <Badge count={4} size='small'>
+                            <Badge count={order?.orderItems?.length} size='small'>
                                 <ShoppingCartOutlined style={{ fontSize: "30px", color: '#fff' }} />
                             </Badge>
                             <WrapperTextHeaderSmall>  Giỏ hàng</WrapperTextHeaderSmall>
