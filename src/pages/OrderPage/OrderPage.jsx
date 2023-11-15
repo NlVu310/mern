@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { CustomCheckbox, WrapperCountOrder, WrapperInfo, WrapperItemOrder, WrapperLeft, WrapperListOrder, WrapperRight, WrapperStyleHeader, WrapperStyleHeaderDilivery, WrapperTotal } from './style'
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import StepComponent from '../../components/StepComponent/StepComponent'
@@ -25,6 +25,40 @@ const OrderPage = ({ count = 1 }) => {
             setListChecked([...listChecked, e.target.value])
         }
     };
+
+    const priceMemo = useMemo(() => {
+        const result = order?.orderItems?.reduce((total, cur) => {
+            return total + ((cur.price * cur.amount))
+        }, 0)
+        console.log('result', result)
+        return result
+    }, [order])
+
+    const priceDiscountMemo = useMemo(() => {
+        const result = order?.orderItems?.reduce((total, cur) => {
+            const totalDiscount = cur.discount ? cur.discount : 0
+            return total + (priceMemo * (totalDiscount * cur.amount) / 100)
+        }, 0)
+        if (Number(result)) {
+            return result
+        }
+        return 0
+    }, [order])
+
+    const diliveryPriceMemo = useMemo(() => {
+        if (priceMemo >= 20000 && priceMemo < 500000) {
+            return 10000
+        } else if (priceMemo >= 500000) {
+            return 0
+        } else {
+            return 20000
+        }
+    }, [priceMemo])
+
+    const totalPriceMemo = useMemo(() => {
+        return Number(priceMemo) - Number(priceDiscountMemo) + Number(diliveryPriceMemo)
+    }, [priceMemo, priceDiscountMemo, diliveryPriceMemo])
+
 
     const [userDetails, stateUserDetails] = useState()
     const handlleChangeCount = (type, idProduct) => {
@@ -146,21 +180,21 @@ const OrderPage = ({ count = 1 }) => {
                             <WrapperInfo>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <span>Tạm tính</span>
-                                    <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(order?.price * order?.amount)}</span>
+                                    <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(priceMemo)}</span>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <span>Giảm giá</span>
-                                    <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>12</span>
+                                    <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{`${priceDiscountMemo} %`}</span>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <span>Phí giao hàng</span>
-                                    <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}></span>
+                                    <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(diliveryPriceMemo)}</span>
                                 </div>
                             </WrapperInfo>
                             <WrapperTotal>
                                 <span>Tổng tiền</span>
                                 <span style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span style={{ color: 'rgb(254, 56, 52)', fontSize: '24px', fontWeight: 'bold' }}>310</span>
+                                    <span style={{ color: 'rgb(254, 56, 52)', fontSize: '24px', fontWeight: 'bold' }}>{convertPrice(totalPriceMemo)}</span>
                                     <span style={{ color: '#000', fontSize: '11px' }}>(Đã bao gồm VAT nếu có)</span>
                                 </span>
                             </WrapperTotal>

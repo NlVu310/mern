@@ -92,8 +92,8 @@ const AdminProductComponent = () => {
         }
     )
 
-    const getAllProducts = async (search, limit) => {
-        const res = await ProductService.getAllProduct(search = '', limit = 100)
+    const getAllProducts = async () => {
+        const res = await ProductService.getAllProduct()
         return res
     }
 
