@@ -12,7 +12,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient()
 root.render(
-  // <React.StrictMode>
   <QueryClientProvider client={queryClient}>
     <Provider store={store} >
       <PersistGate loading={null} persistor={persistor}>
@@ -21,7 +20,6 @@ root.render(
     </Provider>
     <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>
-  // </React.StrictMode>
 );
 
 reportWebVitals();

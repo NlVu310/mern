@@ -46,7 +46,8 @@ const AdminProductComponent = () => {
                 rating,
                 image,
                 type,
-                countInStock } = data
+                countInStock,
+                discount } = data
             const res = ProductService.createProduct({
                 name,
                 price,
@@ -54,7 +55,8 @@ const AdminProductComponent = () => {
                 rating,
                 image,
                 type,
-                countInStock
+                countInStock,
+                discount
             })
             return res
         }
@@ -106,6 +108,7 @@ const AdminProductComponent = () => {
                 image: res?.data?.image,
                 type: res?.data?.type,
                 countInStock: res?.data?.countInStock,
+                discount: res?.data?.discount
             })
         }
         setIsLoadingUpdate(false)
@@ -290,6 +293,11 @@ const AdminProductComponent = () => {
             ...getColumnSearchProps('type')
         },
         {
+            title: 'Discount',
+            dataIndex: 'discount',
+            ...getColumnSearchProps('discount')
+        },
+        {
             title: 'Action',
             dataIndex: 'action',
             render: renderAction
@@ -335,7 +343,8 @@ const AdminProductComponent = () => {
             rating: '',
             image: '',
             type: '',
-            countInStock: ''
+            countInStock: '',
+            discount: ''
         })
         form.resetFields()
     };
@@ -416,6 +425,7 @@ const AdminProductComponent = () => {
             image: stateProduct.image,
             type: stateProduct.type === 'add_type' ? stateProduct.newType : stateProduct.type,
             countInStock: stateProduct.countInStock,
+            discount: stateProduct.discount
         }
         mutation.mutate(params, {
             onSettled: () => {
@@ -523,6 +533,13 @@ const AdminProductComponent = () => {
                             <InputComponent value={stateProduct.description} onChange={handleOnchange} name="description" />
                         </Form.Item>
                         <Form.Item
+                            label="Discount"
+                            name="discount"
+                            rules={[{ required: false, message: 'Please input your count discount!' }]}
+                        >
+                            <InputComponent value={stateProduct.discount} onChange={handleOnchange} name="discount" />
+                        </Form.Item>
+                        <Form.Item
                             label="Rating"
                             name="rating"
                             rules={[{ required: false, message: 'Please input your count rating!' }]}
@@ -604,19 +621,20 @@ const AdminProductComponent = () => {
                             <InputComponent value={stateProductDetails.description} onChange={handleOnchangeDetails} name="description" />
                         </Form.Item>
                         <Form.Item
+                            label="Discount"
+                            name="discount"
+                            rules={[{ required: true, message: 'Please input your discount of product!' }]}
+                        >
+                            <InputComponent value={stateProductDetails.discount} onChange={handleOnchangeDetails} name="discount" />
+                        </Form.Item>
+                        <Form.Item
                             label="Rating"
                             name="rating"
                             rules={[{ required: false, message: 'Please input your count rating!' }]}
                         >
                             <InputComponent value={stateProductDetails.rating} onChange={handleOnchangeDetails} name="rating" />
                         </Form.Item>
-                        {/* <Form.Item
-                            label="Discount"
-                            name="discount"
-                            rules={[{ required: true, message: 'Please input your discount of product!' }]}
-                        >
-                            <InputComponent value={stateProductDetails.discount} onChange={handleOnchangeDetails} name="discount" />
-                        </Form.Item> */}
+
                         <Form.Item
                             label="Image"
                             name="image"
