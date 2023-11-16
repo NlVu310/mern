@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     orderItems: [],
-    // orderItemsSlected: [],
+    orderItemsSlected: [],
     shippingAddress: {
     },
     paymentMethod: '',
@@ -36,18 +36,28 @@ export const orderSlide = createSlice({
         increaseAmount: (state, action) => {
             const { idProduct } = action.payload
             const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
+            const itemOrderSelected = state?.orderItemsSlected?.find((item) => item?.product === idProduct)
+            if (itemOrderSelected) {
+                itemOrderSelected.amount++;
+            }
             itemOrder.amount++;
+
         },
         decreaseAmount: (state, action) => {
             const { idProduct } = action.payload
             const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
+            const itemOrderSelected = state?.orderItemsSlected?.find((item) => item?.product === idProduct)
+            if (itemOrderSelected) {
+                itemOrderSelected.amount--;
+            }
             itemOrder.amount--;
         },
         removeOrderProduct: (state, action) => {
             const { idProduct } = action.payload
             const itemOrder = state?.orderItems?.filter((item) => item?.product !== idProduct)
-            console.log('remover', { idProduct, itemOrder })
-            state.orderItems = itemOrder
+            const itemOrderSelected = state?.orderItemsSlected?.filter((item) => item?.product !== idProduct)
+            state.orderItems = itemOrder;
+            state.orderItemsSlected = itemOrderSelected
         },
         removeAllOrderProduct: (state, action) => {
             const { listChecked } = action.payload

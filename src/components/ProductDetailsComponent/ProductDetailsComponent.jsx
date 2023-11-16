@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { addOrderProduct } from '../../redux/slides/orderSlide'
 import { convertPrice } from '../../utils'
+import ModalComponent from '../ModalComponent/ModalComponent'
 
 const ProductDetailsComponent = ({ idProduct }) => {
     const [numProduct, setNumproduct] = useState(1)
