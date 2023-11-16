@@ -5,11 +5,11 @@ const success = (mes = 'Success') => {
 }
 
 const error = (mes = 'Error') => {
-    message.success(mes);
+    message.error(mes);
 }
 
 const warning = (mes = 'Warning') => {
-    message.success(mes);
+    message.warning(mes);
 }
 
 export { success, error, warning }

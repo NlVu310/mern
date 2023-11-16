@@ -10,6 +10,13 @@ import { Form } from 'antd'
 import { WrapperInputNumber } from '../../components/ProductDetailsComponent/style'
 import { decreaseAmount, increaseAmount, removeAllOrderProduct, removeOrderProduct, selectedOrder } from '../../redux/slides/orderSlide'
 import { convertPrice } from '../../utils'
+import * as UserService from '../../services/UserService'
+import { useMutationHooks } from '../../hooks/useMutationHook'
+import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
+import * as message from '../../components/MessageComponent/MessageComponent'
+import { updateUser } from '../../redux/slides/userSlide'
+
+
 
 const OrderPage = () => {
     const order = useSelector((state) => state.order)
@@ -24,6 +31,16 @@ const OrderPage = () => {
         address: '',
         city: ''
     })
+
+    const mutationUpdate = useMutationHooks(
+        (data) => {
+            const { id,
+                token,
+                ...rests } = data
+            const res = UserService.updateUser(id, { ...rests }, token)
+            return res
+        }
+    )
     const onChange = (e) => {
         if (listChecked.includes(e.target.value)) {
             const newListChecked = listChecked.filter((item) => item !== e.target.value)
@@ -37,7 +54,6 @@ const OrderPage = () => {
         const result = order?.orderItemsSlected?.reduce((total, cur) => {
             return total + ((cur.price * cur.amount))
         }, 0)
-        console.log('result', result)
         return result
     }, [order])
 
@@ -109,23 +125,61 @@ const OrderPage = () => {
     }
 
     const handleAddCard = () => {
-        console.log('user ', user)
-        if (!user?.phone || !user?.address || !user?.name || !user?.city) {
+        if (!order?.orderItemsSlected?.length) {
+            message.error('Vui lòng chọn sản phẩm')
+        }
+        else if (!user?.phone || !user?.address || !user?.name || !user?.city) {
             setIsOpenModalUpdateInfo(true)
         }
+        console.log('user', user)
     }
 
     const handleCancelUpdate = () => {
+        setStateUserDetails({
+            name: '',
+            phone: '',
+            city: '',
+            address: '',
+        })
+        form.resetFields()
         setIsOpenModalUpdateInfo(false)
     }
     const handleUpdateInforUser = () => {
-        console.log('stateuser', stateUserDetails)
+        const { name, address, city, phone } = stateUserDetails
+        if (name && address && city && phone) {
+            mutationUpdate.mutate({ id: user?.id, token: user?.access_token, ...stateUserDetails }, {
+                onSuccess: () => {
+                    // dispatch(updateUser({ name, address, city, phone }))
+                    setIsOpenModalUpdateInfo(false)
+                },
+                // onSettled: () => {
+                //     stateUserDetails.refetch()
+                // }
+            })
+        }
     }
 
+    const { isLoading, data } = mutationUpdate
 
     useEffect(() => {
         dispatch(selectedOrder({ listChecked }))
     }, [listChecked])
+
+
+    useEffect(() => {
+        form.setFieldsValue(stateUserDetails)
+    }, [form, stateUserDetails])
+
+    useEffect(() => {
+        if (isOpenModalUpdateInfo) {
+            setStateUserDetails({
+                city: user?.city,
+                name: user?.name,
+                address: user?.address,
+                phone: user?.phone
+            })
+        }
+    }, [isOpenModalUpdateInfo])
 
     return (
         <div style={{ background: '#f5f5fa', with: '100%', height: '100vh' }}>
@@ -238,46 +292,46 @@ const OrderPage = () => {
                 </div>
             </div>
             <ModalComponent title="Cập nhật thông tin giao hàng" open={isOpenModalUpdateInfo} onCancel={handleCancelUpdate} onOk={handleUpdateInforUser}>
-                {/* <Loading isLoading={isLoading}> */}
-                <Form
-                    name="basic"
-                    labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 20 }}
-                    // onFinish={onUpdateUser}
-                    autoComplete="on"
-                    form={form}
-                >
-                    <Form.Item
-                        label="Name"
-                        name="name"
-                        rules={[{ required: true, message: 'Please input your name!' }]}
+                <LoadingComponent isLoading={isLoading}>
+                    <Form
+                        name="basic"
+                        labelCol={{ span: 4 }}
+                        wrapperCol={{ span: 20 }}
+                        // onFinish={onUpdateUser}
+                        autoComplete="on"
+                        form={form}
                     >
-                        <InputComponent value={stateUserDetails['name']} onChange={handleOnchangeDetails} name="name" />
-                    </Form.Item>
-                    <Form.Item
-                        label="City"
-                        name="city"
-                        rules={[{ required: true, message: 'Please input your city!' }]}
-                    >
-                        <InputComponent value={stateUserDetails['city']} onChange={handleOnchangeDetails} name="city" />
-                    </Form.Item>
-                    <Form.Item
-                        label="Phone"
-                        name="phone"
-                        rules={[{ required: true, message: 'Please input your  phone!' }]}
-                    >
-                        <InputComponent value={stateUserDetails.phone} onChange={handleOnchangeDetails} name="phone" />
-                    </Form.Item>
+                        <Form.Item
+                            label="Name"
+                            name="name"
+                            rules={[{ required: true, message: 'Please input your name!' }]}
+                        >
+                            <InputComponent value={stateUserDetails['name']} onChange={handleOnchangeDetails} name="name" />
+                        </Form.Item>
+                        <Form.Item
+                            label="City"
+                            name="city"
+                            rules={[{ required: true, message: 'Please input your city!' }]}
+                        >
+                            <InputComponent value={stateUserDetails['city']} onChange={handleOnchangeDetails} name="city" />
+                        </Form.Item>
+                        <Form.Item
+                            label="Phone"
+                            name="phone"
+                            rules={[{ required: true, message: 'Please input your  phone!' }]}
+                        >
+                            <InputComponent value={stateUserDetails.phone} onChange={handleOnchangeDetails} name="phone" />
+                        </Form.Item>
 
-                    <Form.Item
-                        label="Adress"
-                        name="address"
-                        rules={[{ required: true, message: 'Please input your  address!' }]}
-                    >
-                        <InputComponent value={stateUserDetails.address} onChange={handleOnchangeDetails} name="address" />
-                    </Form.Item>
-                </Form>
-                {/* </Loading> */}
+                        <Form.Item
+                            label="Adress"
+                            name="address"
+                            rules={[{ required: true, message: 'Please input your  address!' }]}
+                        >
+                            <InputComponent value={stateUserDetails.address} onChange={handleOnchangeDetails} name="address" />
+                        </Form.Item>
+                    </Form>
+                </LoadingComponent>
             </ModalComponent>
         </div>
     )
