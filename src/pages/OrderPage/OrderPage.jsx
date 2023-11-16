@@ -53,14 +53,14 @@ const OrderPage = () => {
     };
 
     const priceMemo = useMemo(() => {
-        const result = order?.orderItemsSlected?.reduce((total, cur) => {
+        const result = order?.orderItems?.reduce((total, cur) => {
             return total + ((cur.price * cur.amount))
         }, 0)
         return result
     }, [order])
 
     const priceDiscountMemo = useMemo(() => {
-        const result = order?.orderItemsSlected?.reduce((total, cur) => {
+        const result = order?.orderItems?.reduce((total, cur) => {
             const totalDiscount = cur.discount ? cur.discount : 0
             return total + (priceMemo * (totalDiscount * cur.amount) / 100)
         }, 0)
@@ -127,10 +127,10 @@ const OrderPage = () => {
     }
 
     const handleAddCard = () => {
-        if (!order?.orderItemsSlected?.length) {
-            message.error('Vui lòng chọn sản phẩm')
-        }
-        else if (!user?.phone || !user?.address || !user?.name || !user?.city) {
+        // if (!order?.orderItemsSlected?.length) {
+        //     message.error('Vui lòng chọn sản phẩm')
+        // }
+        if (!user?.phone || !user?.address || !user?.name || !user?.city) {
             setIsOpenModalUpdateInfo(true)
         }
         else {
