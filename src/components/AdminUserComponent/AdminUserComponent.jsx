@@ -68,7 +68,7 @@ const AdminUserComponent = () => {
     )
 
     const getAllUsers = async () => {
-        const res = await UserService.getAllUser()
+        const res = await UserService.getAllUser(user?.access_token)
         return res
     }
 
@@ -411,7 +411,7 @@ const AdminUserComponent = () => {
             </DrawerComponent>
 
             {/* xóa sản phẩm */}
-            <ModalComponent forceRender title="Xóa người dùng" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteUser}>
+            <ModalComponent forceRender title="Cập nhật thông tin giao hàng" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteUser}>
                 <LoadingComponent isLoading={isLoadingdeleted}>
                     <div>bạn có chắc xóa người dùng này không?</div>
                 </LoadingComponent>

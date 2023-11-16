@@ -14,15 +14,12 @@ import * as UserService from '../../services/UserService'
 import { useMutationHooks } from '../../hooks/useMutationHook'
 import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
 import * as message from '../../components/MessageComponent/MessageComponent'
-import { updateUser } from '../../redux/slides/userSlide'
-import { useNavigate } from 'react-router-dom'
 
 
 
-const OrderPage = () => {
+const PaymentPage = () => {
     const order = useSelector((state) => state.order)
     const user = useSelector((state) => state.user)
-    const navigate = useNavigate()
     const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false)
     const [listChecked, setListChecked] = useState([])
     const dispatch = useDispatch()
@@ -43,14 +40,7 @@ const OrderPage = () => {
             return res
         }
     )
-    const onChange = (e) => {
-        if (listChecked.includes(e.target.value)) {
-            const newListChecked = listChecked.filter((item) => item !== e.target.value)
-            setListChecked(newListChecked)
-        } else {
-            setListChecked([...listChecked, e.target.value])
-        }
-    };
+
 
     const priceMemo = useMemo(() => {
         const result = order?.orderItemsSlected?.reduce((total, cur) => {
@@ -84,38 +74,6 @@ const OrderPage = () => {
         return Number(priceMemo) - Number(priceDiscountMemo) + Number(diliveryPriceMemo)
     }, [priceMemo, priceDiscountMemo, diliveryPriceMemo])
 
-
-
-
-    const handlleChangeCount = (type, idProduct) => {
-        if (type === 'increase') {
-            dispatch(increaseAmount({ idProduct }))
-        } else {
-            dispatch(decreaseAmount({ idProduct }))
-        }
-    }
-    const handleDeleteOrder = (idProduct) => {
-        dispatch(removeOrderProduct({ idProduct }))
-    }
-
-    const handleOnchangeCheckAll = (e) => {
-        if (e.target.checked) {
-            const newListChecked = []
-            order?.orderItems?.forEach((item) => {
-                newListChecked.push(item?.product)
-            })
-            setListChecked(newListChecked)
-        } else {
-            setListChecked([])
-        }
-    }
-
-    const handleRemoveAllOrder = () => {
-        if (listChecked?.length > 1) {
-            dispatch(removeAllOrderProduct({ listChecked }))
-        }
-    }
-
     const handleOnchangeDetails = (e) => {
         setStateUserDetails({
             ...stateUserDetails,
@@ -133,9 +91,7 @@ const OrderPage = () => {
         else if (!user?.phone || !user?.address || !user?.name || !user?.city) {
             setIsOpenModalUpdateInfo(true)
         }
-        else {
-            navigate('/payment')
-        }
+        console.log('user', user)
     }
 
     const handleCancelUpdate = () => {
@@ -191,60 +147,6 @@ const OrderPage = () => {
                 <h3 style={{ fontWeight: 'bold', marginTop: '0' }}>Giỏ hàng</h3>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <WrapperLeft>
-                        {/* <h4>Phí giao hàng</h4> */}
-                        {/* <WrapperStyleHeaderDilivery>
-                            <StepComponent
-                            // items={itemsDelivery} current={diliveryPriceMemo === 10000
-                            //     ? 2 : diliveryPriceMemo === 20000 ? 1
-                            //         : order.orderItemsSlected.length === 0 ? 0 : 3} 
-                            />
-                        </WrapperStyleHeaderDilivery> */}
-                        <WrapperStyleHeader>
-                            <span style={{ display: 'inline-block', width: '390px' }}>
-                                <CustomCheckbox onChange={handleOnchangeCheckAll} checked={listChecked?.length === order?.orderItems?.length}></CustomCheckbox>
-                                <span> Tất cả ({order?.orderItems?.length} sản phẩm)</span>
-                            </span>
-                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <span>Đơn giá</span>
-                                <span>Số lượng</span>
-                                <span>Thành tiền</span>
-                                <DeleteOutlined style={{ cursor: 'pointer' }} onClick={handleRemoveAllOrder} />
-                            </div>
-                        </WrapperStyleHeader>
-                        <WrapperListOrder>
-                            {order?.orderItems?.map((order) => {
-                                return (
-                                    <WrapperItemOrder key={order?.product}>
-                                        <div style={{ width: '390px', display: 'flex', alignItems: 'center', gap: 4 }}>
-                                            <CustomCheckbox onChange={onChange} checked={listChecked.includes(order?.product)} value={order?.product} ></CustomCheckbox>
-                                            <img src={order?.image} style={{ width: '77px', height: '79px', objectFit: 'cover' }} />
-                                            <div style={{
-                                                width: 260,
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                whiteSpace: 'nowrap'
-                                            }}>{order?.name}</div>
-                                        </div>
-                                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <span>
-                                                <span style={{ fontSize: '13px', color: '#242424' }}>{convertPrice(order?.price)}</span>
-                                            </span>
-                                            <WrapperCountOrder>
-                                                <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handlleChangeCount('decrease', order?.product)} >
-                                                    <MinusOutlined style={{ color: '#000', fontSize: '10px' }} />
-                                                </button>
-                                                <WrapperInputNumber defaultValue={order?.amount} min={1} value={order?.amount} size="small" />
-                                                <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handlleChangeCount('increase', order?.product)} >
-                                                    <PlusOutlined style={{ color: '#000', fontSize: '10px' }} />
-                                                </button>
-                                            </WrapperCountOrder>
-                                            <span style={{ color: 'rgb(255, 66, 78)', fontSize: '13px', fontWeight: 500 }}>{convertPrice(order?.price * order?.amount)}</span>
-                                            <DeleteOutlined style={{ cursor: 'pointer' }} onClick={() => handleDeleteOrder(order?.product)} />
-                                        </div>
-                                    </WrapperItemOrder>
-                                )
-                            })}
-                        </WrapperListOrder>
                     </WrapperLeft>
                     <WrapperRight>
                         <div style={{ width: '100%' }}>
@@ -295,7 +197,7 @@ const OrderPage = () => {
                     </WrapperRight>
                 </div>
             </div>
-            <ModalComponent title="Cập nhật thông tin giao hàng" open={isOpenModalUpdateInfo} onCancel={handleCancelUpdate} onOk={handleUpdateInforUser}>
+            <ModalComponent forceRender title="Cập nhật thông tin giao hàng" open={isOpenModalUpdateInfo} onCancel={handleCancelUpdate} onOk={handleUpdateInforUser}>
                 <LoadingComponent isLoading={isLoading}>
                     <Form
                         name="basic"
@@ -342,4 +244,4 @@ const OrderPage = () => {
 }
 
 
-export default OrderPage
+export default PaymentPage

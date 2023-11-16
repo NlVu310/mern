@@ -9,8 +9,6 @@ const TableComponent = (props) => {
     const { selectionType = 'checkbox', data = [], columns = [], isLoading = false, handleDeleteMany } = props
     const [rowSelectedkeys, setRowSelectedKeys] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 8; // Số hàng hiển thị trên mỗi trang
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             setRowSelectedKeys(selectedRowKeys)
@@ -36,44 +34,6 @@ const TableComponent = (props) => {
         setIsModalOpen(false)
     }
 
-    const handleChangePage = (page) => {
-        setCurrentPage(page);
-    };
-
-    const items = [
-        {
-            key: '1',
-            label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                    1st menu item
-                </a>
-            ),
-        },
-        {
-            key: '2',
-            label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                    2nd menu item (disabled)
-                </a>
-            ),
-            icon: <SmileOutlined />,
-            disabled: true,
-        },
-        {
-            key: '3',
-            label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-                    3rd menu item (disabled)
-                </a>
-            ),
-            disabled: true,
-        },
-        {
-            key: '4',
-            danger: true,
-            label: 'a danger item',
-        },
-    ];
     return (
         <LoadingComponent isLoading={isLoading}>
             {rowSelectedkeys.length > 0 && (
@@ -103,7 +63,7 @@ const TableComponent = (props) => {
 
 
             <ModalComponent open={isModalOpen} onCancel={handleCancel} onOk={handleDeleteAll}>
-                <div>bạn có chắc xóa ?</div>
+                <div>bạn có chắc muốn xóa dữ liệu đã chọn ?</div>
             </ModalComponent>
         </LoadingComponent>
     )
