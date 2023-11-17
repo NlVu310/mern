@@ -18,7 +18,6 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     }
     const user = useSelector((state) => state.user)
     const order = useSelector((state) => state.order)
-    console.log('ord', order)
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [userAvatar, setUserAvatar] = useState('')// eslint-disable-next-line 

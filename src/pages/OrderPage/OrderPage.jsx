@@ -295,7 +295,7 @@ const OrderPage = () => {
                     </WrapperRight>
                 </div>
             </div>
-            <ModalComponent title="Cập nhật thông tin giao hàng" open={isOpenModalUpdateInfo} onCancel={handleCancelUpdate} onOk={handleUpdateInforUser}>
+            <ModalComponent forceRender title="Cập nhật thông tin giao hàng" open={isOpenModalUpdateInfo} onCancel={handleCancelUpdate} onOk={handleUpdateInforUser}>
                 <LoadingComponent isLoading={isLoading}>
                     <Form
                         name="basic"
