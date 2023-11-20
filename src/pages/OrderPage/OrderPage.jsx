@@ -70,13 +70,14 @@ const OrderPage = () => {
         return 0
     }, [order])
 
+
     const diliveryPriceMemo = useMemo(() => {
-        if (priceMemo >= 20000) {
-            return 10000
-        } else if (priceMemo === 0) {
+        if (priceMemo >= 2000000 && priceMemo < 5000000) {
+            return 15000
+        } else if (priceMemo >= 5000000 || order?.orderItems?.length === 0) {
             return 0
         } else {
-            return 0
+            return 25000
         }
     }, [priceMemo])
 
@@ -185,20 +186,36 @@ const OrderPage = () => {
         }
     }, [isOpenModalUpdateInfo])
 
+    const itemsDelivery = [
+        {
+            title: '25.000 VND',
+            description: 'Dưới 2.000.000 VND',
+        },
+        {
+            title: '15.000 VND',
+            description: 'Từ 2.000.000 VND đến dưới 5.000.000 VND',
+        },
+        {
+            title: 'Free ship',
+            description: 'Trên 5.000.000 VND',
+        },
+    ]
+
     return (
         <div style={{ background: '#f5f5fa', with: '100%', height: '100vh' }}>
             <div style={{ height: '100%', width: '1270px', margin: '0 auto' }}>
                 <h3 style={{ fontWeight: 'bold', marginTop: '0' }}>Giỏ hàng</h3>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <WrapperLeft>
-                        {/* <h4>Phí giao hàng</h4> */}
-                        {/* <WrapperStyleHeaderDilivery>
+                        <h4>Phí giao hàng</h4>
+                        <WrapperStyleHeaderDilivery>
                             <StepComponent
-                            // items={itemsDelivery} current={diliveryPriceMemo === 10000
-                            //     ? 2 : diliveryPriceMemo === 20000 ? 1
-                            //         : order.orderItemsSlected.length === 0 ? 0 : 3} 
+                                items={itemsDelivery} current={diliveryPriceMemo === 15000
+                                    ? 1 : diliveryPriceMemo === 25000 ? 0
+                                        : order.orderItems.length === 0 ? 3 : 2
+                                }
                             />
-                        </WrapperStyleHeaderDilivery> */}
+                        </WrapperStyleHeaderDilivery>
                         <WrapperStyleHeader>
                             <span style={{ display: 'inline-block', width: '390px' }}>
                                 <CustomCheckbox onChange={handleOnchangeCheckAll} checked={listChecked?.length === order?.orderItems?.length}></CustomCheckbox>
