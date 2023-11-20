@@ -84,12 +84,12 @@ const PaymentPage = () => {
     }, [order])
 
     const diliveryPriceMemo = useMemo(() => {
-        if (priceMemo >= 20000) {
-            return 10000
-        } else if (priceMemo === 0) {
+        if (priceMemo >= 2000000 && priceMemo < 5000000) {
+            return 15000
+        } else if (priceMemo >= 5000000 || order?.orderItems?.length === 0) {
             return 0
         } else {
-            return 0
+            return 25000
         }
     }, [priceMemo])
 
