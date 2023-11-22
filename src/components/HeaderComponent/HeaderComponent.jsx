@@ -20,6 +20,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     const order = useSelector((state) => state.order)
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
+    const [isOpenPopup, setIsOpenPopup] = useState(false)
     const [userAvatar, setUserAvatar] = useState('')// eslint-disable-next-line 
     const [userName, setUserName] = useState('')
     const [search, setSearch] = useState('')
@@ -40,14 +41,33 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
 
     const content = (
         <div>
-            <WrapperContentPopup onClick={handleLogOut}>Đăng xuất</WrapperContentPopup>
-            <WrapperContentPopup onClick={() => navigate('/profile-user')}>Thông tin người dùng</WrapperContentPopup>
-            <WrapperContentPopup onClick={() => navigate('/my-order')}>Đơn hàng của tôi</WrapperContentPopup>
+            <WrapperContentPopup onClick={() => handleClickNavigate('profile')}>Thông tin người dùng</WrapperContentPopup>
             {user?.isAdmin && (
-                <WrapperContentPopup onClick={() => navigate('/system/admin')}>Quản lí hệ thống</WrapperContentPopup>
+
+                <WrapperContentPopup onClick={() => handleClickNavigate('admin')}>Quản lí hệ thống</WrapperContentPopup>
             )}
+            <WrapperContentPopup onClick={() => handleClickNavigate(`my-order`)}>Đơn hàng của tôi</WrapperContentPopup>
+            <WrapperContentPopup onClick={() => handleClickNavigate()}>Đăng xuất</WrapperContentPopup>
         </div>
     );
+
+    const handleClickNavigate = (type) => {
+        if (type === 'profile') {
+            navigate('/profile-user')
+        } else if (type === 'admin') {
+            navigate('/system/admin')
+        } else if (type === 'my-order') {
+            navigate('/my-order', {
+                state: {
+                    id: user?.id,
+                    token: user?.access_token
+                }
+            })
+        } else {
+            handleLogOut()
+        }
+        setIsOpenPopup(false)
+    }
 
     const onSearch = (e) => {
         setSearch(e.target.value)
@@ -84,8 +104,8 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             )}
                             {user?.access_token ? (
                                 <>
-                                    <Popover content={content} trigger="click" >
-                                        <div style={{ cursor: 'pointer' }}> {user?.name || user?.email} </div>
+                                    <Popover content={content} trigger="click" open={isOpenPopup}>
+                                        <div style={{ cursor: 'pointer' }} onClick={() => setIsOpenPopup((prev) => !prev)}> {user?.name || user?.email} </div>
                                     </Popover>
                                 </>
                             ) : (
