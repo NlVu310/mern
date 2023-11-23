@@ -36,7 +36,7 @@ const CardComponent = (props) => {
             </WrapperReportText>
             <WrapperPriceText>
                 <span style={{ marginRight: '8px' }}>{convertPrice(price)}</span>
-                <WrapperDiscountPriceText > - {discount || 5}%</WrapperDiscountPriceText>
+                {/* <WrapperDiscountPriceText > - {discount || 5}%</WrapperDiscountPriceText> */}
             </WrapperPriceText>
         </StyleCard>
     )

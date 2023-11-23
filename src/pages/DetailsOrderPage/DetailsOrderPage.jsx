@@ -67,7 +67,7 @@ const DetailsOrderPage = () => {
                             <div style={{ width: '670px' }}>Sản phẩm</div>
                             <WrapperItemLabel>Giá</WrapperItemLabel>
                             <WrapperItemLabel>Số lượng</WrapperItemLabel>
-                            <WrapperItemLabel>Giảm giá</WrapperItemLabel>
+                            <WrapperItemLabel></WrapperItemLabel>
                         </div>
                         {data?.orderItems?.map((order) => {
                             return (
@@ -93,9 +93,7 @@ const DetailsOrderPage = () => {
                                     </WrapperNameProduct>
                                     <WrapperItem>{convertPrice(order?.price)}</WrapperItem>
                                     <WrapperItem>{order?.amount}</WrapperItem>
-                                    <WrapperItem>{order?.discount ? convertPrice(priceMemo * order?.discount / 100) : '0 VND'}</WrapperItem>
-
-
+                                    {/* <WrapperItem>{order?.discount ? convertPrice(priceMemo * order?.discount / 100) : '0 VND'}</WrapperItem> */}
                                 </WrapperProduct>
                             )
                         })}

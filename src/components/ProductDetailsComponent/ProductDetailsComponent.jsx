@@ -47,7 +47,8 @@ const ProductDetailsComponent = ({ idProduct }) => {
                     amount: numProduct,
                     image: productDetails?.image,
                     price: productDetails?.price,
-                    product: productDetails?._id
+                    product: productDetails?._id,
+                    countInStock: productDetails?.countInStock
                 }
             }))
         }
@@ -71,7 +72,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
                     <WrapperStyleNameProduct>{productDetails?.name}</WrapperStyleNameProduct>
                     <div>
                         <Rate allowHalf defaultValue={productDetails?.rating} value={productDetails?.rating} />
-                        <WrapperTextSell> {productDetails?.selled} || daa ban 1000</WrapperTextSell>
+                        <WrapperTextSell> đã bán {productDetails?.selled} </WrapperTextSell>
                     </div>
                     <WrapperPriceProduct>
                         <WrapperPriceTextProduct>

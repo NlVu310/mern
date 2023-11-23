@@ -94,8 +94,8 @@ const PaymentPage = () => {
     }, [priceMemo])
 
     const totalPriceMemo = useMemo(() => {
-        return Number(priceMemo) - Number(priceDiscountMemo) + Number(diliveryPriceMemo)
-    }, [priceMemo, priceDiscountMemo, diliveryPriceMemo])
+        return Number(priceMemo) + Number(diliveryPriceMemo)
+    }, [priceMemo, diliveryPriceMemo])
 
     const handleOnchangeDetails = (e) => {
         setStateUserDetails({
@@ -247,8 +247,8 @@ const PaymentPage = () => {
                                         <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(priceMemo)}</span>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                        <span>Giảm giá</span>
-                                        <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(priceDiscountMemo)}</span>
+                                        {/* <span>Giảm giá</span>
+                                        <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(priceDiscountMemo)}</span> */}
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                         <span>Phí giao hàng</span>

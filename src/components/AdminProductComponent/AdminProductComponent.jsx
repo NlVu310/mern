@@ -34,7 +34,7 @@ const AdminProductComponent = () => {
         type: '',
         countInStock: '',
         newType: '',
-        discount: '',
+        // discount: '',
     })
     const [stateProduct, setStateProduct] = useState(inittial())
     const [stateProductDetails, setStateProductDetails] = useState(inittial())
@@ -47,7 +47,7 @@ const AdminProductComponent = () => {
                 image,
                 type,
                 countInStock,
-                discount } = data
+            } = data
             const res = ProductService.createProduct({
                 name,
                 price,
@@ -56,7 +56,6 @@ const AdminProductComponent = () => {
                 image,
                 type,
                 countInStock,
-                discount
             })
             return res
         }
@@ -108,7 +107,6 @@ const AdminProductComponent = () => {
                 image: res?.data?.image,
                 type: res?.data?.type,
                 countInStock: res?.data?.countInStock,
-                discount: res?.data?.discount
             })
         }
         setIsLoadingUpdate(false)
@@ -292,11 +290,11 @@ const AdminProductComponent = () => {
             dataIndex: 'type',
             ...getColumnSearchProps('type')
         },
-        {
-            title: 'Discount',
-            dataIndex: 'discount',
-            ...getColumnSearchProps('discount')
-        },
+        // {
+        //     title: 'Discount',
+        //     dataIndex: 'discount',
+        //     ...getColumnSearchProps('discount')
+        // },
         {
             title: 'Action',
             dataIndex: 'action',
@@ -344,7 +342,7 @@ const AdminProductComponent = () => {
             image: '',
             type: '',
             countInStock: '',
-            discount: ''
+            // discount: ''
         })
         form.resetFields()
     };
@@ -359,7 +357,7 @@ const AdminProductComponent = () => {
             image: '',
             type: '',
             countInStock: '',
-            discount: '',
+            // discount: '',
         })
         form.resetFields()
     };
@@ -425,7 +423,7 @@ const AdminProductComponent = () => {
             image: stateProduct.image,
             type: stateProduct.type === 'add_type' ? stateProduct.newType : stateProduct.type,
             countInStock: stateProduct.countInStock,
-            discount: stateProduct.discount
+            // discount: stateProduct.discount
         }
         mutation.mutate(params, {
             onSettled: () => {
@@ -532,13 +530,13 @@ const AdminProductComponent = () => {
                         >
                             <InputComponent value={stateProduct.description} onChange={handleOnchange} name="description" />
                         </Form.Item>
-                        <Form.Item
+                        {/* <Form.Item
                             label="Discount"
                             name="discount"
                             rules={[{ required: false, message: 'Please input your count discount!' }]}
                         >
                             <InputComponent value={stateProduct.discount} onChange={handleOnchange} name="discount" />
-                        </Form.Item>
+                        </Form.Item> */}
                         <Form.Item
                             label="Rating"
                             name="rating"
@@ -620,13 +618,13 @@ const AdminProductComponent = () => {
                         >
                             <InputComponent value={stateProductDetails.description} onChange={handleOnchangeDetails} name="description" />
                         </Form.Item>
-                        <Form.Item
+                        {/* <Form.Item
                             label="Discount"
                             name="discount"
                             rules={[{ required: true, message: 'Please input your discount of product!' }]}
                         >
                             <InputComponent value={stateProductDetails.discount} onChange={handleOnchangeDetails} name="discount" />
-                        </Form.Item>
+                        </Form.Item> */}
                         <Form.Item
                             label="Rating"
                             name="rating"

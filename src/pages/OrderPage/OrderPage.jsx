@@ -88,13 +88,18 @@ const OrderPage = () => {
 
 
 
-    const handlleChangeCount = (type, idProduct) => {
+    const handleChangeCount = (type, idProduct, limited) => {
         if (type === 'increase') {
-            dispatch(increaseAmount({ idProduct }))
+            if (!limited) {
+                dispatch(increaseAmount({ idProduct }))
+            }
         } else {
-            dispatch(decreaseAmount({ idProduct }))
+            if (!limited) {
+                dispatch(decreaseAmount({ idProduct }))
+            }
         }
     }
+
     const handleDeleteOrder = (idProduct) => {
         dispatch(removeOrderProduct({ idProduct }))
     }
@@ -200,6 +205,8 @@ const OrderPage = () => {
             description: 'Trên 5.000.000 VND',
         },
     ]
+    console.log('order', order)
+
 
     return (
         <div style={{ background: '#f5f5fa', with: '100%', height: '100vh' }}>
@@ -247,11 +254,11 @@ const OrderPage = () => {
                                                 <span style={{ fontSize: '13px', color: '#242424' }}>{convertPrice(order?.price)}</span>
                                             </span>
                                             <WrapperCountOrder>
-                                                <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handlleChangeCount('decrease', order?.product)} >
+                                                <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('decrease', order?.product, order?.amount === 1)} >
                                                     <MinusOutlined style={{ color: '#000', fontSize: '10px' }} />
                                                 </button>
-                                                <WrapperInputNumber defaultValue={order?.amount} min={1} value={order?.amount} size="small" />
-                                                <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handlleChangeCount('increase', order?.product)} >
+                                                <WrapperInputNumber defaultValue={order?.amount} value={order?.amount} size="small" min={1} max={order?.countInStock} />
+                                                <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('increase', order?.product, order?.amount === order?.countInStock, order?.amount === 1)} >
                                                     <PlusOutlined style={{ color: '#000', fontSize: '10px' }} />
                                                 </button>
                                             </WrapperCountOrder>
@@ -278,8 +285,8 @@ const OrderPage = () => {
                                     <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(priceMemo)}</span>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <span>Giảm giá</span>
-                                    <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{`${priceDiscountMemo} %`}</span>
+                                    {/* <span>Giảm giá</span>
+                                    <span style={{ color: '#000', fontSize: '14px', fontWeight: 'bold' }}>{convertPrice(priceDiscountMemo)}</span> */}
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <span>Phí giao hàng</span>
