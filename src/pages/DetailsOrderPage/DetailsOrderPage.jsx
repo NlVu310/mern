@@ -35,7 +35,7 @@ const DetailsOrderPage = () => {
 
     return (
         <LoadingComponent isLoading={isLoading}>
-            <div style={{ width: '100%', height: '100vh', background: '#f5f5fa' }}>
+            <div style={{ width: '100%', height: '100%', background: '#f5f5fa' }}>
                 <div style={{ width: '1270px', margin: '0 auto', height: '1270px' }}>
                     <h4 style={{ marginTop: '0' }}>Chi tiết đơn hàng</h4>
                     <WrapperHeaderUser>

@@ -9,6 +9,7 @@ import { removeAllOrderProduct, selectedOrder } from '../../redux/slides/orderSl
 import { convertPrice } from '../../utils'
 import * as UserService from '../../services/UserService'
 import * as OrderService from '../../services/OrderService'
+import * as PaymentService from '../../services/PaymentService'
 import { useMutationHooks } from '../../hooks/useMutationHook'
 import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
 import * as message from '../../components/MessageComponent/MessageComponent'
@@ -72,17 +73,30 @@ const PaymentPage = () => {
         return result
     }, [order])
 
-    const priceDiscountMemo = useMemo(() => {
-        const result = order?.orderItems?.reduce((total, cur) => {
-            // const result = order?.orderItemsSlected?.reduce((total, cur) => {
-            const totalDiscount = cur.discount ? cur.discount : 0
-            return total + (priceMemo * (totalDiscount * cur.amount) / 100)
-        }, 0)
-        if (Number(result)) {
-            return result
+    // const priceDiscountMemo = useMemo(() => {
+    //     const result = order?.orderItems?.reduce((total, cur) => {
+    //         // const result = order?.orderItemsSlected?.reduce((total, cur) => {
+    //         const totalDiscount = cur.discount ? cur.discount : 0
+    //         return total + (priceMemo * (totalDiscount * cur.amount) / 100)
+    //     }, 0)
+    //     if (Number(result)) {
+    //         return result
+    //     }
+    //     return 0
+    // }, [order])
+
+    const addPaypalScript = async () => {
+        const { data } = await PaymentService.getConfig()
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
+        script.async = true;
+        script.onload = () => {
+            setSdkReady(true)
         }
-        return 0
-    }, [order])
+        document.body.appendChild(script)
+    }
+
 
     const diliveryPriceMemo = useMemo(() => {
         if (priceMemo >= 2000000 && priceMemo < 5000000) {
@@ -165,6 +179,30 @@ const PaymentPage = () => {
     }
 
 
+
+    const onSuccessPaypal = (details, data) => {
+        console.log('details', details)
+        mutationAddOrder.mutate(
+            {
+                token: user?.access_token,
+                orderItems: order?.orderItems,
+                fullName: user?.name,
+                address: user?.address,
+                phone: user?.phone,
+                city: user?.city,
+                paymentMethod: payment,
+                itemsPrice: priceMemo,
+                shippingPrice: diliveryPriceMemo,
+                totalPrice: totalPriceMemo,
+                user: user?.id,
+                isPaid: true,
+                paidAt: details.update_time,
+                // email: user?.email
+            }
+        )
+    }
+
+
     const { isLoading, data } = mutationUpdate
     const { isLoading: isLoadingAddOrder, data: dataAdd, isSuccess, isError } = mutationAddOrder
     useEffect(() => {
@@ -207,6 +245,13 @@ const PaymentPage = () => {
         }
     }, [isOpenModalUpdateInfo])
 
+    useEffect(() => {
+        if (!window.paypal) {
+            addPaypalScript()
+        } else {
+            setSdkReady(true)
+        }
+    }, [])
     return (
         <div style={{ background: '#f5f5fa', with: '100%', height: '100vh' }}>
             <LoadingComponent isLoading={isLoadingAddOrder}>
@@ -264,34 +309,34 @@ const PaymentPage = () => {
                                     </span>
                                 </WrapperTotal>
                             </div>
-                            {payment === 'paypal' ? (
-                                // <div style={{ width: '340px', marginLeft: '60px' }}>
-                                //     <PayPalButton
-                                //         amount={Math.round(totalPriceMemo / 30000)}
-                                //         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-                                //         // onSuccess={onSuccessPaypal}
-                                //         onError={() => {
-                                //             alert('Error')
-                                //         }}
-                                //     />
-                                // </div>
+                            {payment === 'paypal' && sdkReady ? (
                                 <div style={{ width: '340px', marginLeft: '60px' }}>
                                     <PayPalButton
-                                        amount="0.01"
+                                        amount={Math.round(totalPriceMemo / 30000)}
                                         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-                                        onSuccess={(details, data) => {
-                                            alert("Transaction completed by " + details.payer.name.given_name);
-
-                                            // OPTIONAL: Call your server to save the transaction
-                                            return fetch("/paypal-transaction-complete", {
-                                                method: "post",
-                                                body: JSON.stringify({
-                                                    orderID: data.orderID
-                                                })
-                                            });
+                                        onSuccess={onSuccessPaypal}
+                                        onError={() => {
+                                            alert('Error')
                                         }}
                                     />
                                 </div>
+                                // <div style={{ width: '340px', marginLeft: '60px' }}>
+                                //     <PayPalButton
+                                //         amount="0.01"
+                                //         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                //         onSuccess={(details, data) => {
+                                //             alert("Transaction completed by " + details.payer.name.given_name);
+
+                                //             // OPTIONAL: Call your server to save the transaction
+                                //             return fetch("/paypal-transaction-complete", {
+                                //                 method: "post",
+                                //                 body: JSON.stringify({
+                                //                     orderID: data.orderID
+                                //                 })
+                                //             });
+                                //         }}
+                                //     />
+                                // </div>
                             ) : (
                                 <ButtonComponent
                                     onClick={() => handleAddOrder()}
