@@ -75,8 +75,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         //lí do filter được
     }
     return (
-        <div style={{ width: '100%', background: 'rgb(26, 148, 255)' }}
-        >
+        <div style={{ width: '100%', backgroundColor: '#9255FD' }}>
             <WrapperHeader style={{ justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' : 'unset' }}>
                 <Col span={5}> <WrapperTextHeader to='/'> NLV</WrapperTextHeader> </Col>
                 {!isHiddenSearch && (

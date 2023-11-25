@@ -13,6 +13,7 @@ import { useMutationHooks } from '../../hooks/useMutationHook'
 import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
 import * as message from '../../components/MessageComponent/MessageComponent'
 import { useNavigate } from 'react-router-dom'
+import { PayPalButton } from 'react-paypal-button-v2'
 
 const PaymentPage = () => {
     const order = useSelector((state) => state.order)
@@ -263,7 +264,35 @@ const PaymentPage = () => {
                                     </span>
                                 </WrapperTotal>
                             </div>
-                            <div style={{ marginLeft: '60px' }}>
+                            {payment === 'paypal' ? (
+                                // <div style={{ width: '340px', marginLeft: '60px' }}>
+                                //     <PayPalButton
+                                //         amount={Math.round(totalPriceMemo / 30000)}
+                                //         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                //         // onSuccess={onSuccessPaypal}
+                                //         onError={() => {
+                                //             alert('Error')
+                                //         }}
+                                //     />
+                                // </div>
+                                <div style={{ width: '340px', marginLeft: '60px' }}>
+                                    <PayPalButton
+                                        amount="0.01"
+                                        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                        onSuccess={(details, data) => {
+                                            alert("Transaction completed by " + details.payer.name.given_name);
+
+                                            // OPTIONAL: Call your server to save the transaction
+                                            return fetch("/paypal-transaction-complete", {
+                                                method: "post",
+                                                body: JSON.stringify({
+                                                    orderID: data.orderID
+                                                })
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            ) : (
                                 <ButtonComponent
                                     onClick={() => handleAddOrder()}
                                     size={40}
@@ -272,12 +301,13 @@ const PaymentPage = () => {
                                         height: '48px',
                                         width: '340px',
                                         border: 'none',
-                                        borderRadius: '4px'
+                                        borderRadius: '4px',
+                                        marginLeft: '60px'
                                     }}
                                     textbutton={'Đặt hàng'}
                                     styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
                                 ></ButtonComponent>
-                            </div>
+                            )}
                         </WrapperRight>
                     </div>
                 </div>

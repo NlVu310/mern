@@ -50,10 +50,10 @@ const TypeProductPage = () => {
             <div style={{ padding: '0 120px', backgroundColor: '#efefef' }}>
                 <div style={{ width: '1302px', margin: 'auto', height: '100%' }}>
                     <Row style={{ flexWrap: 'nowrap', paddingTop: '10px', height: 'calc(100% -20px)' }}>
-                        <WrapperNavBar span={4} >
+                        {/* <WrapperNavBar span={4} >
                             <NavBarComponent />
-                        </WrapperNavBar>
-                        <Col span={20} style={{ display: 'flex', flexDirection: 'column ', justifyContent: 'center' }}>
+                        </WrapperNavBar> */}
+                        <Col span={24} style={{ display: 'flex', flexDirection: 'column ', justifyContent: 'center' }}>
                             <WrapperProducts>
                                 {products?.filter((pro) => {
                                     if (searchDebounce === '') {
