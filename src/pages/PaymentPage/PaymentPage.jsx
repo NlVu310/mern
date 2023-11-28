@@ -312,31 +312,13 @@ const PaymentPage = () => {
                             {payment === 'paypal' && sdkReady ? (
                                 <div style={{ width: '340px', marginLeft: '60px' }}>
                                     <PayPalButton
-                                        amount={Math.round(totalPriceMemo / 30000)}
-                                        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                        amount={Math.round(totalPriceMemo / 25000)}
                                         onSuccess={onSuccessPaypal}
                                         onError={() => {
                                             alert('Error')
                                         }}
                                     />
                                 </div>
-                                // <div style={{ width: '340px', marginLeft: '60px' }}>
-                                //     <PayPalButton
-                                //         amount="0.01"
-                                //         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-                                //         onSuccess={(details, data) => {
-                                //             alert("Transaction completed by " + details.payer.name.given_name);
-
-                                //             // OPTIONAL: Call your server to save the transaction
-                                //             return fetch("/paypal-transaction-complete", {
-                                //                 method: "post",
-                                //                 body: JSON.stringify({
-                                //                     orderID: data.orderID
-                                //                 })
-                                //             });
-                                //         }}
-                                //     />
-                                // </div>
                             ) : (
                                 <ButtonComponent
                                     onClick={() => handleAddOrder()}

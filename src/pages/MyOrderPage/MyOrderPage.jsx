@@ -30,7 +30,6 @@ const MyOrderPage = () => {
         enabled: state?.id && state?.token
     })
     const { isLoading, data } = queryOrder
-    console.log('data', data)
 
     const handleDetailsOrder = (id) => {
         navigate(`/details-order/${id}`, {
@@ -99,8 +98,6 @@ const MyOrderPage = () => {
                     <h4 style={{ marginTop: '0px' }}>Đơn hàng của tôi</h4>
                     <WrapperListOrder>
                         {data?.map((order) => {
-                            console.log('order', order.orderItems)
-
                             return (
                                 <WrapperItemOrder key={order?._id}>
                                     <WrapperStatus>

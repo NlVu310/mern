@@ -119,7 +119,7 @@ const AdminUserComponent = () => {
     const { data: dataDeleted, isLoading: isLoadingdeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDeleted
 
     const queryUser = useQuery({ queryKey: ['user'], queryFn: getAllUsers })
-    const { isLoading: isLoadingProduct, data: users } = queryUser
+    const { isLoading: isLoadingUser, data: users } = queryUser
 
     const renderAction = () => {
         return (
@@ -324,99 +324,102 @@ const AdminUserComponent = () => {
 
     return (
         <div>
-            <WrapperHeader> Quản lí người dùng</WrapperHeader>
-            <div style={{ marginTop: '20px' }}>
-                <TableComponent columns={columns}
-                    handleDeleteMany={handleDeleteManyUser}
-                    data={dataTable}
-                    onRow={(record, rowIndex) => {
-                        return {
-                            onClick: event => {
-                                setRowSelected(record._id)
-                            }
-                        };
-                    }} />
-            </div>
-            <DrawerComponent forceRender title='Chi tiết người dùng' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="90%">
-                <LoadingComponent isLoading={isLoadingUpdate || isLoadingUpdated}>
-                    <Form
-                        name="basic"
-                        labelCol={{ span: 2 }}
-                        wrapperCol={{ span: 22 }}
-                        onFinish={onUpdateUser}
-                        autoComplete="on"
-                        form={form}
-                    >
-                        <Form.Item
-                            label="Name"
-                            name="name"
-                            rules={[{ required: true, message: 'Please input your name!' }]}
-                        >
-                            <InputComponent value={stateUserDetails['name']} onChange={handleOnchangeDetails} name="name" />
-                        </Form.Item>
+            <LoadingComponent isLoading={isLoadingUpdate || isLoadingUpdated || isLoadingUser}>
+                <WrapperHeader> Quản lí người dùng</WrapperHeader>
+                <div style={{ marginTop: '20px' }}>
+                    <TableComponent columns={columns}
+                        handleDeleteMany={handleDeleteManyUser}
+                        data={dataTable}
+                        onRow={(record, rowIndex) => {
+                            return {
+                                onClick: event => {
+                                    setRowSelected(record._id)
+                                }
+                            };
+                        }} />
+                </div>
+                <DrawerComponent forceRender title='Chi tiết người dùng' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="90%">
+                    <LoadingComponent isLoading={isLoadingUpdate || isLoadingUpdated}>
 
-                        <Form.Item
-                            label="Email"
-                            name="email"
-                            rules={[{ required: false, message: 'Please input your email!' }]}
+                        <Form
+                            name="basic"
+                            labelCol={{ span: 2 }}
+                            wrapperCol={{ span: 22 }}
+                            onFinish={onUpdateUser}
+                            autoComplete="on"
+                            form={form}
                         >
-                            <InputComponent value={stateUserDetails.email} onChange={handleOnchangeDetails} name="email" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Address"
-                            name="address"
-                            rules={[{ required: false, message: 'Please input your count address!' }]}
-                        >
-                            <InputComponent value={stateUserDetails.address} onChange={handleOnchangeDetails} name="address" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Admin"
-                            name="isAdmin"
-                            rules={[{ required: false, message: 'Please input your Admin!' }]}
-                        >
-                            <InputComponent value={stateUserDetails.isAdmin} onChange={handleOnchangeDetails} name="isAdmin" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Phone"
-                            name="phone"
-                            rules={[{ required: false, message: 'Please input your count phone!' }]}
-                        >
-                            <InputComponent value={stateUserDetails.phone} onChange={handleOnchangeDetails} name="phone" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Avatar"
-                            name="avatar"
-                            rules={[{ required: false, message: 'Please input your count avatar!' }]}
-                        >
-                            <WrapperUploadFile onChange={handleOnchangeAvatarDetails} maxCount={1}>
-                                <Button >Select File</Button>
-                                {stateUserDetails?.avatar && (
-                                    <img src={stateUserDetails?.avatar} style={{
-                                        height: '60px',
-                                        width: '60px',
-                                        borderRadius: '50%',
-                                        objectFit: 'cover',
-                                        marginLeft: '10px'
-                                    }} alt="avatar" />
-                                )}
-                            </WrapperUploadFile>
-                        </Form.Item>
-                        <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
-                            <Button type="primary" htmlType="submit">
-                                Apply
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </LoadingComponent>
-            </DrawerComponent>
+                            <Form.Item
+                                label="Name"
+                                name="name"
+                                rules={[{ required: true, message: 'Please input your name!' }]}
+                            >
+                                <InputComponent value={stateUserDetails['name']} onChange={handleOnchangeDetails} name="name" />
+                            </Form.Item>
 
-            {/* xóa sản phẩm */}
-            <ModalComponent forceRender title="Cập nhật thông tin giao hàng" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteUser}>
-                <LoadingComponent isLoading={isLoadingdeleted}>
-                    <div>bạn có chắc xóa người dùng này không?</div>
-                </LoadingComponent>
-            </ModalComponent>
-        </div>
+                            <Form.Item
+                                label="Email"
+                                name="email"
+                                rules={[{ required: false, message: 'Please input your email!' }]}
+                            >
+                                <InputComponent value={stateUserDetails.email} onChange={handleOnchangeDetails} name="email" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Address"
+                                name="address"
+                                rules={[{ required: false, message: 'Please input your count address!' }]}
+                            >
+                                <InputComponent value={stateUserDetails.address} onChange={handleOnchangeDetails} name="address" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Admin"
+                                name="isAdmin"
+                                rules={[{ required: false, message: 'Please input your Admin!' }]}
+                            >
+                                <InputComponent value={stateUserDetails.isAdmin} onChange={handleOnchangeDetails} name="isAdmin" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Phone"
+                                name="phone"
+                                rules={[{ required: false, message: 'Please input your count phone!' }]}
+                            >
+                                <InputComponent value={stateUserDetails.phone} onChange={handleOnchangeDetails} name="phone" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Avatar"
+                                name="avatar"
+                                rules={[{ required: false, message: 'Please input your count avatar!' }]}
+                            >
+                                <WrapperUploadFile onChange={handleOnchangeAvatarDetails} maxCount={1}>
+                                    <Button >Select File</Button>
+                                    {stateUserDetails?.avatar && (
+                                        <img src={stateUserDetails?.avatar} style={{
+                                            height: '60px',
+                                            width: '60px',
+                                            borderRadius: '50%',
+                                            objectFit: 'cover',
+                                            marginLeft: '10px'
+                                        }} alt="avatar" />
+                                    )}
+                                </WrapperUploadFile>
+                            </Form.Item>
+                            <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
+                                <Button type="primary" htmlType="submit">
+                                    Apply
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </LoadingComponent>
+                </DrawerComponent>
+                {/* xóa sản phẩm */}
+                <ModalComponent forceRender title="Cập nhật thông tin giao hàng" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteUser}>
+                    <LoadingComponent isLoading={isLoadingdeleted}>
+                        <div>bạn có chắc xóa người dùng này không?</div>
+                    </LoadingComponent>
+                </ModalComponent>
+            </LoadingComponent>
+
+        </div >
     )
 }
 
