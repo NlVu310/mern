@@ -531,13 +531,6 @@ const AdminProductComponent = () => {
                             >
                                 <InputComponent value={stateProduct.description} onChange={handleOnchange} name="description" />
                             </Form.Item>
-                            {/* <Form.Item
-                            label="Discount"
-                            name="discount"
-                            rules={[{ required: false, message: 'Please input your count discount!' }]}
-                        >
-                            <InputComponent value={stateProduct.discount} onChange={handleOnchange} name="discount" />
-                        </Form.Item> */}
                             <Form.Item
                                 label="Rating"
                                 name="rating"

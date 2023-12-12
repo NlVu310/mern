@@ -49,3 +49,14 @@ export const getAllOrder = async () => {
     const res = await axiosJWT.get(`${process.env.REACT_APP_API_URL}/order/get-all-order`)
     return res.data
 }
+
+export const deleteOrder = async (id) => {
+    const res = await axiosJWT.delete(`${process.env.REACT_APP_API_URL}/order/delete-order/${id}`)
+    return res.data
+}
+
+
+export const updateOrder = async (id, data) => {
+    const res = await axiosJWT.put(`${process.env.REACT_APP_API_URL}/order/update/${id}`, data)
+    return res.data
+}

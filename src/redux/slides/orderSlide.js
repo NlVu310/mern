@@ -13,7 +13,7 @@ const initialState = {
     user: '',
     isPaid: false,
     paidAt: '',
-    isDelivered: false,
+    isDelivered: '',
     deliveredAt: '',
     isSucessOrder: false,
 }

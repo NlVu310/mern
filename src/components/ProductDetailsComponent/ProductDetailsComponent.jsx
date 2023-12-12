@@ -126,6 +126,9 @@ const ProductDetailsComponent = ({ idProduct }) => {
                         <Rate allowHalf defaultValue={productDetails?.rating} value={productDetails?.rating} />
                         <WrapperTextSell> đã bán {productDetails?.selled} </WrapperTextSell>
                     </div>
+                    <div>
+                        <WrapperTextSell> {productDetails?.description} </WrapperTextSell>
+                    </div>
                     <WrapperPriceProduct>
                         <WrapperPriceTextProduct>
                             {convertPrice(productDetails?.price)}

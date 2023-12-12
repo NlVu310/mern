@@ -106,7 +106,7 @@ const MyOrderPage = () => {
                                         <span style={{ fontSize: '14px', fontWeight: 'bold' }}>Trạng thái</span>
                                         <div>
                                             <span style={{ color: 'rgb(255, 66, 78)' }}>Giao hàng: </span>
-                                            <span style={{ color: 'rgb(90, 32, 193)', fontWeight: 'bold' }}>{`${order.isDelivered ? 'Đã giao hàng' : 'Chưa giao hàng'}`}</span>
+                                            <span style={{ color: 'rgb(90, 32, 193)', fontWeight: 'bold' }}>{`${order.isDelivered || 'Chưa giao hàng'}`}</span>
                                         </div>
                                         <div>
                                             <span style={{ color: 'rgb(255, 66, 78)' }}>Thanh toán: </span>
