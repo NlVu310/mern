@@ -117,7 +117,7 @@ const SignInPage = () => {
                             styleButton={{ background: 'rgb(255,57,69)', height: '48px', width: '100%', margin: '26px 0 10px' }}>
                         </ButtonComponent>
                     </LoadingComponent>
-                    <p> <WrapperTextLight> Quên mật khẩu</WrapperTextLight></p>
+                    {/* <p> <WrapperTextLight> Quên mật khẩu</WrapperTextLight></p> */}
                     <p>Chưa có tải khoản? <WrapperTextLight onClick={handleNavigateSignUp} > Tạo tài khoản </WrapperTextLight></p>
                 </WrapperContainerLeft>
                 <WrapperContainerRight>

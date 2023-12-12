@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Col, Popover } from 'antd';
-import { WrapperContentPopup, WrapperHeader, WrapperHeaderAccount, WrapperTextHeader, WrapperTextHeaderSmall } from './style';
+import { WrapperContentPopup, WrapperHeader, WrapperHeaderAccount, WrapperHeaderTop, WrapperTextHeader, WrapperTextHeaderSmall } from './style';
 import { UserOutlined, CaretDownOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import ButtonInputSearchComponent from '../ButtonInputSearchComponent/ButtonInputSearchComponent';
 import { useNavigate } from 'react-router-dom'; //hook 
@@ -75,7 +75,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         //lí do filter được
     }
     return (
-        <div style={{ width: '100%', backgroundColor: '#9255FD' }}>
+        <WrapperHeaderTop style={{ width: '100%', backgroundColor: '#9255FD' }}>
             <WrapperHeader style={{ justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' : 'unset' }}>
                 <Col span={5}> <WrapperTextHeader to='/'> NLV</WrapperTextHeader> </Col>
                 {!isHiddenSearch && (
@@ -83,7 +83,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                         <ButtonInputSearchComponent
                             size="large"
                             textbutton="Tìm kiếm"
-                            placeholder="input search text"
+                            placeholder="Tìm kiếm"
                             onChange={onSearch}
                         />
                     </Col>
@@ -129,7 +129,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                     )}
                 </Col>
             </WrapperHeader>
-        </div>
+        </WrapperHeaderTop>
     )
 }
 

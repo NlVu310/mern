@@ -40,7 +40,7 @@ export const renderOptions = (arr) => {
         })
     }
     results.push({
-        label: 'Thêm type',
+        label: 'Thêm loại',
         value: 'add_type'
     })
     return results

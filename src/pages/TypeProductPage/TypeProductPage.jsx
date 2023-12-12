@@ -18,17 +18,17 @@ const TypeProductPage = () => {
     const [products, setProducts] = useState([])
     const [panigate, setPanigate] = useState({
         page: 0,
-        limit: 10,
+        limit: 100,
         total: 1
     })
     const fetchProductType = async (type, page, limit) => {
         setLoading(true)
         const res = await ProductService.getProductType(type, page, limit)
-        console.log('res', res)
         if (res?.status === 'OK') {
             setLoading(false)
             setProducts(res?.data)
             setPanigate({ ...panigate, total: res?.total })
+            setLoading(false)
         } else {
             setLoading(false)
         }
@@ -38,21 +38,18 @@ const TypeProductPage = () => {
     useEffect(() => {
         if (state) {
             fetchProductType(state, panigate.page, panigate.limit)
+            setLoading(false)
         }
     }, [state, panigate.page, panigate.limit])
 
-    console.log('loading', loading)
     const onChange = (current, pageSize) => {
         setPanigate({ ...panigate, page: current - 1, limit: pageSize })
     }
     return (
         <LoadingComponent isLoading={loading} >
-            <div style={{ padding: '0 120px', backgroundColor: '#efefef' }}>
+            <div style={{ padding: '0 120px', backgroundColor: '#efefef', height: '1000px' }}>
                 <div style={{ width: '1302px', margin: 'auto', height: '100%' }}>
                     <Row style={{ flexWrap: 'nowrap', paddingTop: '10px', height: 'calc(100% -20px)' }}>
-                        {/* <WrapperNavBar span={4} >
-                            <NavBarComponent />
-                        </WrapperNavBar> */}
                         <Col span={24} style={{ display: 'flex', flexDirection: 'column ', justifyContent: 'center' }}>
                             <WrapperProducts>
                                 {products?.filter((pro) => {
@@ -63,23 +60,26 @@ const TypeProductPage = () => {
                                     }
                                 })?.map((product) => {
                                     return (
-                                        <CardComponent
-                                            key={product._id}
-                                            countInStock={product.countInStock}
-                                            description={product.description}
-                                            image={product.image}
-                                            name={product.name}
-                                            price={product.price}
-                                            rating={product.rating}
-                                            type={product.type}
-                                            selled={product.selled}
-                                            discount={product.discount}
-                                            id={product._id}
-                                        />
+                                        <>
+                                            <CardComponent
+                                                key={product._id}
+                                                countInStock={product.countInStock}
+                                                description={product.description}
+                                                image={product.image}
+                                                name={product.name}
+                                                price={product.price}
+                                                rating={product.rating}
+                                                type={product.type}
+                                                selled={product.selled}
+                                                discount={product.discount}
+                                                id={product._id}
+                                            />
+                                        </>
+
                                     )
                                 })}
                             </WrapperProducts>
-                            <Pagination defaultCurrent={panigate?.page + 1} total={panigate?.total + 1} onChange={onChange} style={{ textAlign: 'center', marginTop: '10px' }} />
+                            {/* <Pagination defaultCurrent={panigate?.page} total={panigate?.total + 1} onChange={onChange} style={{ textAlign: 'center', marginTop: '50px' }} /> */}
                         </Col>
                     </Row>
                 </div>

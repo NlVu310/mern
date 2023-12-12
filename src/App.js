@@ -35,11 +35,8 @@ function App() {
   }
 
   UserService.axiosJWT.interceptors.request.use(async (config) => {
-    // Do something before request is sent
     const currentTime = new Date()
     const { decoded } = handleDecoded()
-    let storageRefreshToken = localStorage.getItem('refresh_token')
-    // const refreshToken = JSON.parse(storageRefreshToken)
     if (decoded?.exp < currentTime.getTime() / 1000) {
       const data = await UserService.refreshToken()
       config.headers['token'] = `Bearer ${data?.access_token}`
@@ -53,8 +50,6 @@ function App() {
   })
 
   const handleGetDetailsUser = async (id, token) => {
-    let storageRefreshToken = localStorage.getItem('refresh_token')
-    // const refreshToken = JSON.parse(storageRefreshToken)
     const res = await UserService.getDetailUser(id, token)
     dispatch(updateUser({ ...res?.data, access_token: token }))
   }

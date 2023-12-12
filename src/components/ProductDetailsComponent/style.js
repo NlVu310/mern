@@ -46,13 +46,7 @@ export const WrapperAddressProduct = styled.div`
         text-overflow: ellipsisl;
     }
 
-    span.change-address{
-        color: rgb(11, 116, 229);
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 500; 
-    }
-`
+    `
 
 export const WrapperQualityProduct = styled.div`
     display: flex;

@@ -33,7 +33,6 @@ const SignUpPage = () => {
         }
         else if (isError) {
             message.error()
-            console.log('isError', isError)
         }
     }, [isSuccess, isError])
 
@@ -60,7 +59,6 @@ const SignUpPage = () => {
         })
     }
 
-    console.log('data', data)
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.53)', height: '100vh' }}>

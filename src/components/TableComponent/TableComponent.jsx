@@ -14,11 +14,7 @@ const TableComponent = (props) => {
             setRowSelectedKeys(selectedRowKeys)
             console.log(`selectedRowKeys: ${selectedRowKeys}`);
         },
-        // getCheckboxProps: (record) => ({
-        //     disabled: record.name === 'Disabled User',
-        //     // Column configuration not to be checked
-        //     name: record.name,
-        // }),
+
     };
 
     const handleDeleteAll = () => {
@@ -56,7 +52,6 @@ const TableComponent = (props) => {
                     columns={columns}
                     dataSource={data}
                     {...props}
-                // pagination={{ defaultPageSize: 16, showSizeChanger: true }}
                 />
 
             </div>

@@ -23,7 +23,7 @@ const MyOrderPage = () => {
 
     const fetchMyOrder = async () => {
         const res = await OrderService.getOrderByUserId(state?.id, state?.token)
-        return res.data
+        return res
     }
 
     const queryOrder = useQuery({ queryKey: ['orders'], queryFn: fetchMyOrder }, {
@@ -90,6 +90,8 @@ const MyOrderPage = () => {
         })
     }
 
+
+    console.log('data', data)
     return (
         // <> test my order</>
         <LoadingComponent isLoading={isLoading || isLoadingCancel}>
@@ -97,7 +99,7 @@ const MyOrderPage = () => {
                 <div style={{ height: '100%', width: '1270px', margin: '0 auto' }}>
                     <h4 style={{ marginTop: '0px' }}>Đơn hàng của tôi</h4>
                     <WrapperListOrder>
-                        {data?.map((order) => {
+                        {data?.data?.map((order) => {
                             return (
                                 <WrapperItemOrder key={order?._id}>
                                     <WrapperStatus>

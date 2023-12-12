@@ -37,3 +37,7 @@ export const WrapperContentPopup = styled.p`
         color: rgb(26, 148, 255)
     }
 `
+
+export const WrapperHeaderTop = styled.div`
+background-color: #9255FD !important
+`

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import * as OrderService from '../../services/OrderService'
 import { useQuery } from '@tanstack/react-query'
@@ -11,11 +11,11 @@ import { convertPrice } from '../../utils'
 import { orderContant } from '../../contant'
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
 import PieChartComponent from './PieChartComponent'
+import { useNavigate } from 'react-router-dom'
 
 const AdminOrderComponent = () => {
     const user = useSelector((state) => state?.user)
-
-
+    const navigate = useNavigate()
     const getAllOrder = async () => {
         const res = await OrderService.getAllOrder()
         return res
@@ -25,6 +25,7 @@ const AdminOrderComponent = () => {
     const queryOrder = useQuery({ queryKey: ['orders'], queryFn: getAllOrder })
     const { isLoading: isLoadingOrders, data: orders } = queryOrder
 
+    console.log('orders', orders)
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div
@@ -85,6 +86,9 @@ const AdminOrderComponent = () => {
 
     });
 
+    // useEffect = (() => {
+
+    // }, [])
     const columns = [
         {
             title: 'User name',
@@ -130,10 +134,12 @@ const AdminOrderComponent = () => {
         },
     ];
 
+
+
     const dataTable = orders?.data?.length && orders?.data?.map((order) => {
-        // console.log('usewr', order)
         return { ...order, key: order._id, userName: order?.shippingAddress?.fullName, phone: order?.shippingAddress?.phone, address: order?.shippingAddress?.address, paymentMethod: orderContant.payment[order?.paymentMethod], isPaid: order?.isPaid ? 'TRUE' : 'FALSE', isDelivered: order?.isDelivered ? 'TRUE' : 'FALSE', totalPrice: convertPrice(order?.totalPrice) }
     })
+
 
     return (
         <div>

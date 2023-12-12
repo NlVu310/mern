@@ -20,8 +20,8 @@ const PaymentPage = () => {
     const order = useSelector((state) => state.order)
     const user = useSelector((state) => state.user)
     const navigate = useNavigate()
-    const [delivery, setDelivery] = useState('fast')
-    const [payment, setPayment] = useState('paypal')
+    const [delivery, setDelivery] = useState('')
+    const [payment, setPayment] = useState('')
     const [sdkReady, setSdkReady] = useState(false)
 
     const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false)
@@ -67,23 +67,10 @@ const PaymentPage = () => {
 
     const priceMemo = useMemo(() => {
         const result = order?.orderItems?.reduce((total, cur) => {
-            // const result = order?.orderItemsSlected?.reduce((total, cur) => {
             return total + ((cur.price * cur.amount))
         }, 0)
         return result
     }, [order])
-
-    // const priceDiscountMemo = useMemo(() => {
-    //     const result = order?.orderItems?.reduce((total, cur) => {
-    //         // const result = order?.orderItemsSlected?.reduce((total, cur) => {
-    //         const totalDiscount = cur.discount ? cur.discount : 0
-    //         return total + (priceMemo * (totalDiscount * cur.amount) / 100)
-    //     }, 0)
-    //     if (Number(result)) {
-    //         return result
-    //     }
-    //     return 0
-    // }, [order])
 
     const addPaypalScript = async () => {
         const { data } = await PaymentService.getConfig()

@@ -412,7 +412,7 @@ const AdminUserComponent = () => {
                     </LoadingComponent>
                 </DrawerComponent>
                 {/* xóa sản phẩm */}
-                <ModalComponent forceRender title="Cập nhật thông tin giao hàng" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteUser}>
+                <ModalComponent forceRender title="Cập nhật thông tin" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteUser}>
                     <LoadingComponent isLoading={isLoadingdeleted}>
                         <div>bạn có chắc xóa người dùng này không?</div>
                     </LoadingComponent>

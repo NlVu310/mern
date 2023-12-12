@@ -9,11 +9,8 @@ import { convertPrice } from '../../utils';
 
 const OrderSucessPage = () => {
     const location = useLocation()
-    console.log('location', location)
     const { state } = location
-    console.log('state', state)
     return (
-        // <></>
         <div style={{ background: '#f5f5fa', with: '100%', height: '100vh' }}>
             {/* <Loading isLoading={false}> */}
             <div style={{ height: '100%', width: '1270px', margin: '0 auto' }}>

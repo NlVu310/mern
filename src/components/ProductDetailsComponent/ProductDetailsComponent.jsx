@@ -66,6 +66,29 @@ const ProductDetailsComponent = ({ idProduct }) => {
         }
     }
 
+    const handleAddOrderProductNext = () => {
+        if (!user?.id) {
+            navigate('/sign-in', { state: location?.pathname })
+        } else {
+            const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id)
+            if ((orderRedux?.amount + numProduct) <= orderRedux?.countInstock || (!orderRedux && productDetails?.countInStock > 0)) {
+                dispatch(addOrderProduct({
+                    orderItem: {
+                        name: productDetails?.name,
+                        amount: numProduct,
+                        image: productDetails?.image,
+                        price: productDetails?.price,
+                        product: productDetails?._id,
+                        countInstock: productDetails?.countInStock
+                    }
+                }))
+                navigate('/payment')
+            } else {
+                setErrorLimitOrder(true)
+            }
+        }
+    }
+
 
 
     useEffect(() => {
@@ -110,8 +133,8 @@ const ProductDetailsComponent = ({ idProduct }) => {
                     </WrapperPriceProduct>
                     <WrapperAddressProduct>
                         <span> Giao đến</span>
-                        <span className='address'> {user?.address} </span> -
-                        <span className='change-address'> Đổi địa chỉ </span>
+                        <span className='address'> {user?.address} </span>
+                        {/* <span className='change-address'> Đổi địa chỉ </span> */}
                     </WrapperAddressProduct>
                     <div style={{ margin: '10px 0 20px' }}>
                         <div style={{ marginBottom: '10px' }}> Số lượng</div>
@@ -130,7 +153,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
                             <ButtonComponent
                                 onClick={handleAddOrderProduct}
                                 size={40}
-                                textbutton={'Chọn mua'}
+                                textbutton={'Thêm vào giỏ hàng'}
                                 styleTextButton={{ color: '#fff' }}
                                 styleButton={{ background: 'rgb(255,57,69)', height: '48px', width: '220px' }}>
                             </ButtonComponent>
@@ -138,7 +161,8 @@ const ProductDetailsComponent = ({ idProduct }) => {
                         </div>
                         <ButtonComponent
                             size={40}
-                            textbutton={'Mua trả sau'}
+                            onClick={handleAddOrderProductNext}
+                            textbutton={'Mua hàng'}
                             styleTextButton={{ color: 'blue' }}
                             styleButton={{ background: '#fff', height: '48px', width: '220px', border: '1px solid rgb(13, 92, 182)' }}>
                         </ButtonComponent>

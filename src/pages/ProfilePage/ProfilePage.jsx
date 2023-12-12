@@ -74,7 +74,6 @@ const ProfilePage = () => {
     const handleUpdate = () => {
         mutation.mutate({ id: user?.id, email, name, phone, avatar, address, access_token: user?.access_token })
         //truyền data vào trong mutation
-        console.log('user', user)
     }
 
 
@@ -96,13 +95,6 @@ const ProfilePage = () => {
                             style={{ marginLeft: '13px', width: '600px' }}
                             value={name} onChange={handleOnchangeName}
                         />
-                        {/* <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)' }}
-                            styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
-                        </ButtonComponent> */}
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor='email'>Email: </WrapperLabel>
@@ -111,13 +103,6 @@ const ProfilePage = () => {
                             style={{ marginLeft: '16px', width: '600px' }}
                             value={email} onChange={handleOnchangeEmail}
                         />
-                        {/* <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)' }}
-                            styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
-                        </ButtonComponent> */}
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor='phone'>Phone: </WrapperLabel>
@@ -126,13 +111,6 @@ const ProfilePage = () => {
                             style={{ marginLeft: '10px', width: '600px' }}
                             value={phone} onChange={handleOnchangePhone}
                         />
-                        {/* <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)' }}
-                            styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
-                        </ButtonComponent> */}
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor='address'>Address: </WrapperLabel>
@@ -141,13 +119,6 @@ const ProfilePage = () => {
                             style={{ marginLeft: '2px', width: '600px' }}
                             value={address} onChange={handleOnchangeAddress}
                         />
-                        {/* <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)' }}
-                            styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', padding: '2px 6px 6px', fontSize: '15px' }}>
-                        </ButtonComponent> */}
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor='avatar'>Avatar </WrapperLabel>
@@ -162,13 +133,6 @@ const ProfilePage = () => {
                                 objectFit: 'cover'
                             }} alt='avatar' />
                         )}
-                        {/* <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)' }}
-                            styleButton={{ color: 'rgb(26, 148, 255)', width: 'fit-content', marginLeft: '20px', padding: '2px 10px 6px', fontSize: '15px' }}>
-                        </ButtonComponent> */}
                     </WrapperInput>
                     <div style={{ display: 'flex', margin: 'auto' }}>
                         <ButtonComponent
