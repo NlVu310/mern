@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux'
 import * as OrderService from '../../services/OrderService'
 import { useQuery } from '@tanstack/react-query'
 import InputComponent from '../InputComponent/InputComponent'
-import { Button, Form, Space } from 'antd'
+import { Button, Form, Select, Space } from 'antd'
 import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import TableComponent from '../TableComponent/TableComponent'
 import { WrapperHeader } from './style'
-import { convertPrice } from '../../utils'
+import { convertPrice, renderPaidOptions, renderShippedOptions } from '../../utils'
 import { orderContant } from '../../contant'
 import LoadingComponent from '../LoadingComponent/LoadingComponent'
 import PieChartComponent from './PieChartComponent'
@@ -52,7 +52,7 @@ const AdminOrderComponent = () => {
                 userName: res?.data?.shippingAddress?.fullName,
                 phone: res?.data?.shippingAddress?.phone,
                 address: res?.data?.shippingAddress?.address,
-                isPaid: res?.data?.isPaid,
+                isPaid: res?.data?.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán',
                 isDelivered: res?.data?.isDelivered,
             })
         }
@@ -161,49 +161,49 @@ const AdminOrderComponent = () => {
     // }, [])
     const columns = [
         {
-            title: 'User name',
+            title: 'Tên người dùng',
             dataIndex: 'userName',
             sorter: (a, b) => a.userName.length - b.userName.length,
             ...getColumnSearchProps('userName')
         },
         {
-            title: 'Phone',
+            title: 'Số điện thoại',
             dataIndex: 'phone',
             sorter: (a, b) => a.phone.length - b.phone.length,
             ...getColumnSearchProps('phone')
         },
         {
-            title: 'Address',
+            title: 'Địa chỉ',
             dataIndex: 'address',
             sorter: (a, b) => a.address.length - b.address.length,
             ...getColumnSearchProps('address')
         },
         {
-            title: 'Paided',
+            title: 'Thanh toán',
             dataIndex: 'isPaid',
             sorter: (a, b) => a.isPaid.length - b.isPaid.length,
             ...getColumnSearchProps('isPaid')
         },
         {
-            title: 'Shipped',
+            title: 'Giao hàng',
             dataIndex: 'isDelivered',
             sorter: (a, b) => a.isDelivered.length - b.isDelivered.length,
             ...getColumnSearchProps('isDelivered')
         },
         {
-            title: 'Payment method',
+            title: 'Phương thức thanh toán',
             dataIndex: 'paymentMethod',
             sorter: (a, b) => a.paymentMethod.length - b.paymentMethod.length,
             ...getColumnSearchProps('paymentMethod')
         },
         {
-            title: 'Total price',
+            title: 'Thành tiền',
             dataIndex: 'totalPrice',
             sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
             ...getColumnSearchProps('totalPrice')
         },
         {
-            title: 'Action',
+            title: 'Hành động',
             dataIndex: 'action',
             render: renderAction
         },
@@ -275,6 +275,40 @@ const AdminOrderComponent = () => {
         }
     }, [isSuccessUpdated])
 
+
+
+    const mutationDeletedMany = useMutationHooks(
+        (data) => {
+            const { ids } = data
+            const res = OrderService.deleteManyOrder(ids)
+            return res
+        }
+    )
+
+    const handleDeleteManyOrder = (ids) => {
+        mutationDeletedMany.mutate({ ids: ids }, {
+            onSettled: () => {
+                queryOrder.refetch()
+            }
+        })
+    }
+
+
+    const handleChangeIsPaid = (value) => {
+        setstateOrderDetails({
+            ...stateOrderDetails,
+            isPaid: value
+        })
+    }
+    const handleChangeShip = (value) => {
+        setstateOrderDetails({
+            ...stateOrderDetails,
+            isDelivered: value
+        })
+    }
+
+
+
     return (
         <div>
             <LoadingComponent isLoading={isLoadingOrders}>
@@ -283,7 +317,11 @@ const AdminOrderComponent = () => {
                     <PieChartComponent data={orders?.data} />
                 </div>
                 <div style={{ marginTop: '20px' }}>
-                    <TableComponent columns={columns} isLoading={isLoadingOrders} data={dataTable}
+                    <TableComponent
+                        handleDeleteMany={handleDeleteManyOrder}
+                        columns={columns}
+                        isLoading={isLoadingOrders}
+                        data={dataTable}
                         onRow={(record, rowIndex) => {
                             return {
                                 onClick: event => {
@@ -295,67 +333,78 @@ const AdminOrderComponent = () => {
 
 
                 <DrawerComponent title='Chi tiết đơn hàng' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="90%">
-                    {/* <LoadingComponent isLoading={isLoadingUpdate || isLoadingUpdated}> */}
-                    <Form
-                        name="basic"
-                        labelCol={{ span: 2 }}
-                        wrapperCol={{ span: 22 }}
-                        onFinish={onUpdateOrder}
-                        autoComplete="on"
-                        form={form}
-                    >
-                        <Form.Item
-                            label="UserName"
-                            name="userName"
-                            rules={[{ required: false, message: 'Please input your name!' }]}
-
+                    <LoadingComponent isLoading={isLoadingUpdated}>
+                        <Form
+                            name="basic"
+                            labelCol={{ span: 2 }}
+                            wrapperCol={{ span: 22 }}
+                            onFinish={onUpdateOrder}
+                            autoComplete="on"
+                            form={form}
                         >
-                            <InputComponent disabled={true} value={stateOrderDetails.userName} onChange={handleOnchangeDetails} name="userName" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Phone"
-                            name="phone"
-                            rules={[{ required: false, message: 'Please input your name!' }]}
+                            <Form.Item
+                                label="Tên người dùng"
+                                name="userName"
+                                rules={[{ required: false, message: 'Please input your name!' }]}
 
-                        >
-                            <InputComponent disabled={true} value={stateOrderDetails.phone} onChange={handleOnchangeDetails} name="phone" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Address"
-                            name="address"
-                            rules={[{ required: false, message: 'Please input your address!' }]}
+                            >
+                                <InputComponent value={stateOrderDetails.userName} onChange={handleOnchangeDetails} name="userName" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Số điện thoại"
+                                name="phone"
+                                rules={[{ required: false, message: 'Please input your name!' }]}
 
-                        >
-                            <InputComponent disabled={true} value={stateOrderDetails.address} name="address" />
-                        </Form.Item>
+                            >
+                                <InputComponent value={stateOrderDetails.phone} onChange={handleOnchangeDetails} name="phone" />
+                            </Form.Item>
+                            <Form.Item
+                                label="Địa chỉ"
+                                name="address"
+                                rules={[{ required: false, message: 'Please input your address!' }]}
 
-                        <Form.Item
-                            label="IsPaid"
-                            name="isPaid"
-                            rules={[{ required: false, message: 'Please input your name!' }]}
-                        >
-                            <InputComponent value={stateOrderDetails.isPaid} onChange={handleOnchangeDetails} name="isPaid" />
-                        </Form.Item>
+                            >
+                                <InputComponent value={stateOrderDetails.address} name="address" />
+                            </Form.Item>
 
-                        <Form.Item
-                            label="is shipped"
-                            name="isDelivered"
-                            rules={[{ required: false, message: 'Please input your name!' }]}
-                        >
-                            <InputComponent value={stateOrderDetails.isDelivered} onChange={handleOnchangeDetails} name="isDelivered" />
-                        </Form.Item>
+                            <Form.Item
+                                label="Thanh toán"
+                                name="isPaid"
+                            >
+                                <Select
+                                    name="isPaid"
+                                    value={stateOrderDetails.isPaid}
+                                    onChange={handleChangeIsPaid}
+                                    options={renderPaidOptions()}
+                                />
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Giao hàng"
+                                name="isDelivered"
+                            >
+                                <Select
+                                    name="isDelivered"
+                                    value={stateOrderDetails.isDelivered}
+                                    onChange={handleChangeShip}
+                                    options={renderShippedOptions()} />
+
+                                {/* <InputComponent value={stateOrderDetails.isDelivered} onChange={handleOnchangeDetails} name="isDelivered" /> */}
+                            </Form.Item>
 
 
-                        <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
-                            <Button type="primary" htmlType="submit">
-                                Apply
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                    {/* </LoadingComponent> */}
+                            <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
+                                <Button type="primary" htmlType="submit">
+                                    Apply
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </LoadingComponent>
                 </DrawerComponent>
-                <ModalComponent forceRender title="Xóa sản phẩm" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleCancelOrder}>
-                    <div>bạn có chắc xóa sản phẩm này không?</div>
+                <ModalComponent forceRender title="Xóa đơn hàng" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleCancelOrder}>
+                    <LoadingComponent isLoading={isLoading}>
+                        <div>bạn có chắc xóa đơn hàng này không?</div>
+                    </LoadingComponent>
                 </ModalComponent>
             </LoadingComponent>
         </div>

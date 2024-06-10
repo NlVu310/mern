@@ -46,6 +46,36 @@ export const renderOptions = (arr) => {
     return results
 }
 
+export const renderPaidOptions = (arr) => {
+    let results = []
+    results.push({
+        label: 'Chưa thanh toán',
+        value: 'false'
+    },
+        {
+            label: 'Đã thanh toán',
+            value: 'true'
+        })
+    return results
+}
+
+export const renderShippedOptions = (arr) => {
+    let results = []
+    results.push({
+        label: 'Đang giao hàng',
+        value: 'Đang giao hàng'
+    },
+        {
+            label: 'Chưa giao hàng',
+            value: 'Chưa giao hàng'
+        },
+        {
+            label: 'Đã giao hàng',
+            value: 'Đã giao hàng'
+        })
+    return results
+}
+
 export const convertPrice = (price) => {
     try {
         const result = price?.toLocaleString().replaceAll(',', '.')

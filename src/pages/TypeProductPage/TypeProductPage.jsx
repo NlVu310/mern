@@ -45,10 +45,17 @@ const TypeProductPage = () => {
     const onChange = (current, pageSize) => {
         setPanigate({ ...panigate, page: current - 1, limit: pageSize })
     }
+
+    console.log('pro', products)
     return (
         <LoadingComponent isLoading={loading} >
             <div style={{ padding: '0 120px', backgroundColor: '#efefef', height: '1000px' }}>
                 <div style={{ width: '1302px', margin: 'auto', height: '100%' }}>
+                    {products?.map((producttype) => {
+                        return (
+                            <h2 style={{ marginTop: '0px' }}> <span style={{ cursor: 'pointer', fontWeight: 'bold' }}>Loại sản phẩm: </span> {producttype.type} </h2>
+                        )
+                    })[0]}
                     <Row style={{ flexWrap: 'nowrap', paddingTop: '10px', height: 'calc(100% -20px)' }}>
                         <Col span={24} style={{ display: 'flex', flexDirection: 'column ', justifyContent: 'center' }}>
                             <WrapperProducts>

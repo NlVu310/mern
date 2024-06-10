@@ -48,7 +48,7 @@ const HomePage = () => {
                     })}
                 </WrapperTypeProduct>
             </div>
-            <div className='body' style={{ width: '100%', backgroundColor: '#efefef', }}>
+            <div className='body' style={{ width: '100%', backgroundColor: '#efefef', paddingTop: '5px' }}>
                 <div id='container' style={{ backgroundColor: '#efefef', padding: '0 120px', height: '100%' }}>
                     <SliderComponent arrImages={[tiki1, tiki2, tiki3]} />
                     <WrapperProducts>

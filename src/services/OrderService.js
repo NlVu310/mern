@@ -60,3 +60,9 @@ export const updateOrder = async (id, data) => {
     const res = await axiosJWT.put(`${process.env.REACT_APP_API_URL}/order/update/${id}`, data)
     return res.data
 }
+
+
+export const deleteManyOrder = async (data) => {
+    const res = await axiosJWT.post(`${process.env.REACT_APP_API_URL}/order/delete-many-order`, data)
+    return res.data
+}

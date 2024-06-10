@@ -203,7 +203,7 @@ const AdminUserComponent = () => {
 
     const columns = [
         {
-            title: 'Name',
+            title: 'Tên người dùng',
             dataIndex: 'name',
             sorter: (a, b) => a.name.length - b.name.length,
             ...getColumnSearchProps('name')
@@ -215,7 +215,7 @@ const AdminUserComponent = () => {
             ...getColumnSearchProps('email')
         },
         {
-            title: 'Address',
+            title: 'Địa chỉ',
             dataIndex: 'address',
             ...getColumnSearchProps('address')
         },
@@ -234,13 +234,13 @@ const AdminUserComponent = () => {
             ],
         },
         {
-            title: 'Phone',
+            title: 'Số điện thoại',
             dataIndex: 'phone',
             ...getColumnSearchProps('phone')
         },
 
         {
-            title: 'Action',
+            title: 'Hành động',
             dataIndex: 'action',
             render: renderAction
         },
@@ -350,7 +350,7 @@ const AdminUserComponent = () => {
                             form={form}
                         >
                             <Form.Item
-                                label="Name"
+                                label="Tên người dùng"
                                 name="name"
                                 rules={[{ required: true, message: 'Please input your name!' }]}
                             >
@@ -365,7 +365,7 @@ const AdminUserComponent = () => {
                                 <InputComponent value={stateUserDetails.email} onChange={handleOnchangeDetails} name="email" />
                             </Form.Item>
                             <Form.Item
-                                label="Address"
+                                label="Địa chỉ"
                                 name="address"
                                 rules={[{ required: false, message: 'Please input your count address!' }]}
                             >
@@ -379,14 +379,14 @@ const AdminUserComponent = () => {
                                 <InputComponent value={stateUserDetails.isAdmin} onChange={handleOnchangeDetails} name="isAdmin" />
                             </Form.Item>
                             <Form.Item
-                                label="Phone"
+                                label="Số điện thoại"
                                 name="phone"
                                 rules={[{ required: false, message: 'Please input your count phone!' }]}
                             >
                                 <InputComponent value={stateUserDetails.phone} onChange={handleOnchangeDetails} name="phone" />
                             </Form.Item>
                             <Form.Item
-                                label="Avatar"
+                                label="Ảnh đại diện"
                                 name="avatar"
                                 rules={[{ required: false, message: 'Please input your count avatar!' }]}
                             >

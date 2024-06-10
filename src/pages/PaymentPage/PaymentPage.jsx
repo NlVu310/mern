@@ -212,8 +212,8 @@ const PaymentPage = () => {
                     totalPriceMemo: totalPriceMemo
                 }
             })
-        } else if (isError) {
-            message.error()
+        } else if (dataAdd?.status === 'ERR') {
+            message.error(`${dataAdd?.message}`)
         }
     }, [isSuccess, isError])
 
@@ -299,7 +299,7 @@ const PaymentPage = () => {
                             {payment === 'paypal' && sdkReady ? (
                                 <div style={{ width: '340px', marginLeft: '60px' }}>
                                     <PayPalButton
-                                        amount={Math.round(totalPriceMemo / 25000)}
+                                        amount={Math.round(totalPriceMemo / 23000)}
                                         onSuccess={onSuccessPaypal}
                                         onError={() => {
                                             alert('Error')

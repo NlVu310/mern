@@ -238,13 +238,13 @@ const AdminProductComponent = () => {
 
     const columns = [
         {
-            title: 'Name',
+            title: 'Tên sản phẩm',
             dataIndex: 'name',
             sorter: (a, b) => a.name.length - b.name.length,
             ...getColumnSearchProps('name')
         },
         {
-            title: 'Price',
+            title: 'Giá',
             dataIndex: 'price',
             sorter: (a, b) => a.price - b.price,
             filters: [
@@ -265,7 +265,7 @@ const AdminProductComponent = () => {
             },
         },
         {
-            title: 'Rating',
+            title: 'Đánh giá',
             dataIndex: 'rating',
             sorter: (a, b) => a.rating - b.rating,
             filters: [
@@ -286,7 +286,7 @@ const AdminProductComponent = () => {
             },
         },
         {
-            title: 'Type',
+            title: 'Loại sản phẩm',
             dataIndex: 'type',
             ...getColumnSearchProps('type')
         },
@@ -296,7 +296,7 @@ const AdminProductComponent = () => {
         //     ...getColumnSearchProps('discount')
         // },
         {
-            title: 'Action',
+            title: 'Hành động',
             dataIndex: 'action',
             render: renderAction
         },
@@ -471,7 +471,7 @@ const AdminProductComponent = () => {
                 </div>
 
                 <ModalComponent forceRender title="Tạo sản phẩm" open={isModalOpen} onCancel={handleCancel} footer={null}>
-                    {/* {data?.status === 'ERR' && (<span style={{ color: 'red' }}>{data?.message}</span>)} */}
+                    {data?.status === 'ERR' && (<span style={{ color: 'red' }}>{data?.message}</span>)}
                     <LoadingComponent isLoading={isLoading}>
                         <Form
                             name="basic"
@@ -482,7 +482,7 @@ const AdminProductComponent = () => {
                             form={form}
                         >
                             <Form.Item
-                                label="Name"
+                                label="Tên sản phẩm"
                                 name="name"
                                 rules={[{ required: true, message: 'Please input your name!' }]}
                             >
@@ -490,7 +490,7 @@ const AdminProductComponent = () => {
                             </Form.Item>
 
                             <Form.Item
-                                label="Type"
+                                label="Loại sản phẩm"
                                 name="type"
                                 rules={[{ required: true, message: 'Please input your type!' }]}
                             >
@@ -503,7 +503,7 @@ const AdminProductComponent = () => {
                             </Form.Item>
                             {stateProduct.type === 'add_type' && (
                                 <Form.Item
-                                    label='New type'
+                                    label='Loại mới'
                                     name="newType"
                                     rules={[{ required: false, message: 'Please input your type!' }]}
                                 >
@@ -511,35 +511,36 @@ const AdminProductComponent = () => {
                                 </Form.Item>
                             )}
                             <Form.Item
-                                label="Count inStock"
+                                label="Tồn kho"
                                 name="countInStock"
                                 rules={[{ required: false, message: 'Please input your count inStock!' }]}
                             >
                                 <InputComponent value={stateProduct.countInStock} onChange={handleOnchange} name="countInStock" />
                             </Form.Item>
                             <Form.Item
-                                label="Price"
+                                label="Giá"
                                 name="price"
                                 rules={[{ required: true, message: 'Please input your count price!' }]}
                             >
                                 <InputComponent value={stateProduct.price} onChange={handleOnchange} name="price" />
                             </Form.Item>
                             <Form.Item
-                                label="Description"
+                                label="Mô tả"
                                 name="description"
                                 rules={[{ required: false, message: 'Please input your count description!' }]}
                             >
                                 <InputComponent value={stateProduct.description} onChange={handleOnchange} name="description" />
                             </Form.Item>
+
                             <Form.Item
-                                label="Rating"
+                                label="Đánh giá"
                                 name="rating"
                                 rules={[{ required: false, message: 'Please input your count rating!' }]}
                             >
                                 <InputComponent value={stateProduct.rating} onChange={handleOnchange} name="rating" />
                             </Form.Item>
                             <Form.Item
-                                label="Image"
+                                label="Ảnh"
                                 name="image"
                                 rules={[{ required: false, message: 'Please input your count image!' }]}
                             >
@@ -568,6 +569,8 @@ const AdminProductComponent = () => {
                 {/* chi tiết sản phẩm */}
                 <DrawerComponent title='Chi tiết sản phẩm' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="90%">
                     <LoadingComponent isLoading={isLoadingUpdate || isLoadingUpdated}>
+                        {/* {dataUpdated?.status === 'ERR' && (<span style={{ color: 'red' }}>{dataUpdated?.message}</span>)} */}
+
                         <Form
                             name="basic"
                             labelCol={{ span: 2 }}
@@ -577,7 +580,7 @@ const AdminProductComponent = () => {
                             form={form}
                         >
                             <Form.Item
-                                label="Name"
+                                label="Tên sản phẩm"
                                 name="name"
                                 rules={[{ required: true, message: 'Please input your name!' }]}
                             >
@@ -585,28 +588,28 @@ const AdminProductComponent = () => {
                             </Form.Item>
 
                             <Form.Item
-                                label="Type"
+                                label="Loại sản phẩm"
                                 name="type"
                                 rules={[{ required: false, message: 'Please input your type!' }]}
                             >
                                 <InputComponent value={stateProductDetails['type']} onChange={handleOnchangeDetails} name="type" />
                             </Form.Item>
                             <Form.Item
-                                label="Count inStock"
+                                label="Tồn kho"
                                 name="countInStock"
                                 rules={[{ required: false, message: 'Please input your count inStock!' }]}
                             >
                                 <InputComponent value={stateProductDetails.countInStock} onChange={handleOnchangeDetails} name="countInStock" />
                             </Form.Item>
                             <Form.Item
-                                label="Price"
+                                label="Giá"
                                 name="price"
                                 rules={[{ required: true, message: 'Please input your count price!' }]}
                             >
                                 <InputComponent value={stateProductDetails.price} onChange={handleOnchangeDetails} name="price" />
                             </Form.Item>
                             <Form.Item
-                                label="Description"
+                                label="Mô tả"
                                 name="description"
                                 rules={[{ required: false, message: 'Please input your count description!' }]}
                             >
@@ -620,7 +623,7 @@ const AdminProductComponent = () => {
                             <InputComponent value={stateProductDetails.discount} onChange={handleOnchangeDetails} name="discount" />
                         </Form.Item> */}
                             <Form.Item
-                                label="Rating"
+                                label="Đánh giá"
                                 name="rating"
                                 rules={[{ required: false, message: 'Please input your count rating!' }]}
                             >
@@ -628,7 +631,7 @@ const AdminProductComponent = () => {
                             </Form.Item>
 
                             <Form.Item
-                                label="Image"
+                                label="Hình ảnh"
                                 name="image"
                                 rules={[{ required: false, message: 'Please input your count image!' }]}
                             >

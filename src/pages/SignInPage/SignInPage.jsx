@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { WrapperContainerLeft, WrapperContainerRight, WrapperTextLight } from './style'
-import { Image } from 'antd'
+import { Image, message } from 'antd'
 import logologin from '../../assets/images/logologin.png'
 import InputForm from '../InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
@@ -32,14 +32,17 @@ const SignInPage = () => {
         if (isSuccess) {
             if (location?.state) {
                 navigate(location?.state)
-            } else {
                 navigate('/')
+            }
+            else {
+                // navigate('/')
             }
             localStorage.setItem('access_token', JSON.stringify(data?.access_token))//truyền vào data tạm thời 
             if (data?.access_token) {
                 const decoded = jwt_decode(data?.access_token)
                 if (decoded?.id) {
                     handleGetDetailsUser(decoded?.id, data?.access_token)
+                    navigate('/')
                 }
             }
         }
